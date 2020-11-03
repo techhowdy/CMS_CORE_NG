@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "User Roles";
+}
+
+<div class="container-fluid">
+    @await Html.PartialAsync("_GetRolesLayout")
+</div>
+
+@section Styles
+{
+    <link href="~/lib/tabulator/css/bootstrap/tabulator_bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/lib/limonte-sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+}
+
+@section Scripts
+{
+    <script src="~/lib/tabulator/js/tabulator.min.js"></script>
+    <script src="~/lib/custom/js/admin/roles.js"></script>
+    <script src="~/lib/limonte-sweetalert2/sweetalert2.min.js"></script>
+}

@@ -1,0 +1,74 @@
+<div class="container mb-5 mt-5" id="profile">
+    <div class="card">
+        <div class="card-body">
+            <div class="card-body-inner">
+                <div class="col-lg-12 col-md-12">
+                    <div class="contact-form">
+                        <h3>Drop Us An Email</h3>
+                        <p>
+                            We're happy to answer any questions you have or provide you with an estimate. Just send us a message in the form below
+                            with any questions you may have.
+                        </p>
+
+                        <form id="contactForm" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-6">
+                                    <label>Full Name <span>*</span></label>
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="your name" />
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-6">
+                                    <label>Email <span>*</span></label>
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                        </div>
+                                        <input type="email" name="email" id="email" class="form-control" placeholder="Your email address" />
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12">
+                                    <label>Phone Number <span>*</span></label>
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                        </div>
+                                        <input
+                                            type="text"
+                                            name="phone_number"
+                                            id="phone_number"
+                                            class="form-control"
+                                            placeholder="Your phone number"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <label>Your Message <span>*</span></label>
+                                        <textarea
+                                            name="message"
+                                            id="message"
+                                            cols="30"
+                                            rows="5"
+                                            class="form-control"
+                                            placeholder="Write your message..."
+                                        ></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 text-center">
+                                    <button type="submit" class="btn btn-warning"><i class="flaticon-plane"></i> Send Message</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

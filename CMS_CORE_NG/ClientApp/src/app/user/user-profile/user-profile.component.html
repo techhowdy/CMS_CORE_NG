@@ -1,0 +1,443 @@
+
+<ng-template #loading>
+    <div class="loading">
+      <img  src="../../../assets/images/spinner.gif" />
+    </div>
+  </ng-template>
+  
+  <div class="container mb-5 mt-5" id="profile" *ngIf="isProfileLoaded; else loading">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="float-left ">PROFILE DETAILS
+          <sup>
+            <span class="badge badge-primary ml-1" id="appUserRole">{{ProfileDetails.userRole.toUpperCase()}}</span>
+          </sup>
+        </h5>
+        <h5 class="badge badge-dark badge-outline float-right" id="fullName">{{ProfileDetails.firstname.toUpperCase() + " " + ProfileDetails.lastname.toUpperCase()}}</h5>
+      </div>
+      <div class="card-body">
+        <form method="POST" [formGroup]="updateProfileForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-lg-9">
+              <fieldset class="border p-2">
+                <legend class="w-auto">Personal Information</legend>
+                <div class="row mb-3">
+                  <div class="col-md-4">
+                    <div class="form-group mb-0">
+                      <label for="firstname" class="form-control-label">
+                        Firstname<span>*</span>
+                      </label>
+                      <div class="controls">
+                        <input [value]="ProfileDetails.firstname" class="form-control" formControlName="firstname" id="firstname" placeholder="eg: John" required type="text"/>
+                        <div *ngIf="firstname.touched && firstname.errors" class="text-danger">
+                          <span *ngIf="firstname.hasError('required')">required</span>
+                          <span *ngIf="firstname.hasError('maxlength')">max 15 char</span>
+                          <span *ngIf="firstname.hasError('minlength')">atleast 2 char</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group mb-0">
+                      <label for="middlename" class="form-control-label">
+                        Middlename
+                      </label>
+                      <div class="controls">
+                        <input [value]="ProfileDetails.middlename" class="form-control" formControlName="middlename" id="middlename" placeholder="eg: W" type="text"/>
+                        <div *ngIf="middlename.touched && middlename.errors" class="text-danger">
+                          <span *ngIf="middlename.hasError('maxlength')">max 15 char</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group mb-0">
+                      <label for="lastname" class="form-control-label">
+                        Lastname<span>*</span>
+                      </label>
+                      <div class="controls">
+                        <input [value]="ProfileDetails.lastname" class="form-control" formControlName="lastname" id="lastname" required type="text" placeholder="eg: Smith"/>
+                        <div *ngIf="lastname.touched && lastname.errors" class="text-danger">
+                          <span *ngIf="lastname.hasError('required')">required</span>
+                          <span *ngIf="lastname.hasError('maxlength')">max 15 char</span>
+                          <span *ngIf="lastname.hasError('minlength')">atleast 2 char</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="email" class="form-control-label">Email<span>*</span>
+                      </label>
+                      <div class="controls ">
+                        <input class="form-control"  id="email" [attr.disabled]="true" formControlName="email" required="required" type="email"/>
+                        <div *ngIf="email.touched && email.errors" class="text-danger">
+                          <span *ngIf="email.hasError('required')">required</span>
+                          <span *ngIf="email.hasError('email')">invalid entry</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="username"  class="form-control-label">Username<span>*</span>
+                      </label>
+                      <div class="controls">
+                        <input class="form-control" id="username" [attr.disabled]="true" formControlName="username" required="required" type="text" />
+                        <div *ngIf="username.touched && username.errors" class="text-danger">
+                          <span *ngIf="username.hasError('required')">required</span>
+                          <span *ngIf="username.hasError('maxlength')">max 10 char</span>
+                          <span *ngIf="username.hasError('minlength')">min 5 char</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="phone" class="form-control-label">Phone<span>*</span>
+                      </label>
+                      <div class="controls">
+                        <input class="form-control" id="phone"  formControlName="phone" required="required" type="text" placeholder="(123)-456-7890"/>
+                        <div *ngIf="phone.touched && phone.errors" class="text-danger">
+                          <span *ngIf="phone.hasError('required')">required</span>
+                          <span *ngIf="phone.hasError('pattern')">invalid entry</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--Birthday-->
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="birthdate" class="form-control-label ">Birthday
+                      <span>
+                        <a id="datepickeDob" (click)="editDob()"><span class="badge badge-warning ml-1">EDIT</span></a>
+                      </span>
+                      </label>
+                      <div class="controls">
+                        <input type="text" id="birthdate" [attr.disabled]="true" [value]="ProfileDetails.birthday" formControlName="birthdate" class="form-control" >
+                        <div *ngIf="birthdate.touched && birthdate.errors" class="text-danger">
+                          <span *ngIf="birthdate.hasError('required')">required</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="gender" class="form-control-label ">Gender (optional)
+                        <span>
+                        <a id="genderPicker" (click)="editGender()"><span class="badge badge-warning ml-1">EDIT</span></a>
+                      </span>
+                      </label>
+                      <div class="controls ">
+                        <select [attr.disabled]="true" formControlName="gender" class="form-control" id="gender">
+                          <option [value]="ProfileDetails.gender" [disabled]="true"
+                                  selected>{{(ProfileDetails.gender == '' || ProfileDetails.gender == null)  ? 'Select Gender' : ProfileDetails.gender}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="displayname" class="form-control-label">Display Name<span>*</span>
+                      </label>
+                      <div class="controls ">
+                        <input class="form-control" id="displayname" formControlName="displayname" required="required" type="text" placeholder="General King Koba" [value]="ProfileDetails.displayname"/>
+                        <div *ngIf="displayname.touched && displayname.errors" class="text-danger">
+                          <span *ngIf="displayname.hasError('required')">required</span>
+                          <span *ngIf="displayname.hasError('maxlength')">max 10 char</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+            <div class="col-lg-3">
+              <fieldset class="border p-3 mt-4">
+                <div class="col-12">
+                  <div class="form-group" id="profpic">
+                    <img [src]="ProfileDetails.profpicfile" id="imgProfile"  class="img-thumbnail"  alt=""/>
+                    <div class="mt-2">
+                      <input type="file" (change)="onFileChanged($event)" id="profpicfile"  name="profpicfile"/>
+                      <a (click)="triggerInput()" class="btn btn-sm btn-success w-100 text-white">Change Photo</a>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-lg-6">
+              <fieldset class="border p-2">
+                <legend class="w-auto">Billing Address</legend>
+                <input type="text" [attr.hidden]="true"  formControlName="userid" />
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="address1" class="form-control-label  requiredField">Address line 1<span>*</span>
+                        <span>
+                        <a id="countryPicker" (click)="editAddress()"><span class="badge badge-warning ml-1">EDIT</span></a>
+                        </span>
+                      </label>
+                      <div class="controls ">
+                        <input [attr.disabled]="true" class="form-control" id="address1" maxlength="50" formControlName="address1" required="required"  type="text"  />
+                        <div *ngIf="address1.touched && address1.errors" class="text-danger">
+                          <span *ngIf="address1.hasError('required')">required</span>
+                          <span *ngIf="address1.hasError('maxlength')">max 50 char</span>
+                          <span *ngIf="address1.hasError('minlength')">min 2 char</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-8">
+                    <div class="form-group">
+                      <label for="address2" class="form-control-label ">Address line 2</label>
+                      <div class="controls">
+                        <input [attr.disabled]="true" class="form-control" id="address2" maxlength="50" formControlName="address2" type="text"  />
+                        <div *ngIf="address2.touched && address2.errors" class="text-danger">
+                          <span *ngIf="address2.hasError('maxlength')">max 50 char</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="form-group">
+                      <label for="unit" class="form-control-label">Suite#</label>
+                      <div class="controls ">
+                        <input [attr.disabled]="true" class="form-control" id="unit" formControlName="unit" maxlength="50"  type="text"  />
+                        <div *ngIf="unit.touched && unit.errors" class="text-danger">
+                          <span *ngIf="unit.hasError('required')">required</span>
+                          <span *ngIf="unit.hasError('maxlength')">max 10 char</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="country" class="form-control-label ">Country<span>*</span>
+                      </label>
+                      <div class="controls">
+                        <select [attr.disabled]="true" class="form-control" id="country" formControlName="country">
+                          <option [ngValue]="ProfileDetails.billingAddress.country" [selected]="ProfileDetails.billingAddress.country">{{ProfileDetails.billingAddress.country}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-2">
+                  <div class="col-md-12">
+                    <div class="form-group mb-0">
+                      <label for="state" class="form-control-label">
+                        State<span>*</span>
+                      </label>
+                      <div class="controls">
+                        <select [attr.disabled]="true" class="form-control" id="state" formControlName="state">
+                          <option [ngValue]="ProfileDetails.billingAddress.state" [selected]="ProfileDetails.billingAddress.state">{{(ProfileDetails.billingAddress.state == '' || ProfileDetails.billingAddress.state == null)  ? 'Select State' : ProfileDetails.billingAddress.state}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="city" class="form-control-label  requiredField">City<span>*</span>
+                      </label>
+                      <div class="controls">
+                        <input [attr.disabled]="true" class="form-control" id="city" maxlength="75" formControlName="city" required="required" type="text"  />
+                        <div *ngIf="city.touched && city.errors" class="text-danger">
+                          <span *ngIf="city.hasError('required')">required</span>
+                          <span *ngIf="city.hasError('maxlength')">max 20 char</span>
+                          <span *ngIf="city.hasError('minlength')">min 2 char</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="postalcode" class="form-control-label  requiredField">Postal Code<span>*</span>
+                      </label>
+                      <div class="controls ">
+                        <input [attr.disabled]="true" class="form-control" id="postalcode" formControlName="postalcode" required="required" type="text" />
+                        <div *ngIf="postalcode.touched && postalcode.errors" class="text-danger">
+                          <span *ngIf="postalcode.hasError('required')">required</span>
+                          <span *ngIf="postalcode.hasError('maxlength')">max 15 char</span>
+                          <span *ngIf="postalcode.hasError('minlength')">min 2 char</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+            <div class="col-lg-6">
+              <fieldset class="border p-2">
+                <legend class="w-auto">Shipping Address</legend>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="saddress1" class="form-control-label  requiredField">Address line 1<span>*</span>
+                      </label>
+                      <div class="controls ">
+                        <input [attr.disabled]="true" class="form-control" id="saddress1" maxlength="50" formControlName="saddress1" required="required"  type="text"/>
+                        <div *ngIf="saddress1.touched && saddress1.errors" class="text-danger">
+                          <span *ngIf="saddress1.hasError('maxlength')">max 50 char</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-8">
+                    <div class="form-group">
+                      <label for="saddress2" class="form-control-label ">Address line 2</label>
+                      <div class="controls ">
+                        <input [attr.disabled]="true" class="form-control" id="saddress2" maxlength="50" formControlName="saddress2" type="text" />
+                        <div *ngIf="saddress2.touched && saddress2.errors" class="text-danger">
+                          <span *ngIf="saddress2.hasError('maxlength')">max 50 char</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="form-group">
+                      <label for="sunit" class="form-control-label">Suite#</label>
+                      <div class="controls ">
+                        <input [attr.disabled]="true" class="form-control" id="sunit" formControlName="sunit" maxlength="50"  type="text"  />
+                        <div *ngIf="sunit.touched && sunit.errors" class="text-danger">
+                          <span *ngIf="sunit.hasError('maxlength')">max 10 char</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="scountry" class="form-control-label ">Country<span>*</span></label>
+                      <div class="controls">
+                        <select [attr.disabled]="true" class="form-control" id="scountry" formControlName="scountry" required="required">
+                          <option [ngValue]="ProfileDetails.shippingAddress.country" [selected]="ProfileDetails.shippingAddress.country">{{(ProfileDetails.shippingAddress.country == '' || ProfileDetails.shippingAddress.country == null)  ? 'Select Gender' : ProfileDetails.shippingAddress.country}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-2">
+                  <div class="col-md-12">
+                    <div class="form-group mb-0">
+                      <label for="sstate" class="form-control-label">
+                        State<span>*</span>
+                      </label>
+                      <div class="controls">
+                        <select [attr.disabled]="true" class="form-control" id="sstate" formControlName="sstate" required="required">
+                          <option [ngValue]="ProfileDetails.shippingAddress.state" [selected]="ProfileDetails.shippingAddress.state">{{(ProfileDetails.shippingAddress.state == '' || ProfileDetails.shippingAddress.state == null)  ? 'Select State' : ProfileDetails.shippingAddress.state}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="scity" class="form-control-label  requiredField">City<span>*</span>
+                      </label>
+                      <div class="controls">
+                        <input [attr.disabled]="true" class="form-control" id="scity" maxlength="75" formControlName="scity" required="required" type="text"/>
+                        <div *ngIf="scity.touched && scity.errors" class="text-danger">
+                          <span *ngIf="scity.hasError('maxlength')">max 20 char</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="spostalcode" class="form-control-label">Postal Code<span>*</span>
+                      </label>
+                      <div class="controls">
+                        <input [attr.disabled]="true" class="form-control" id="spostalcode" formControlName="spostalcode" required="required" type="text" />
+                        <div *ngIf="spostalcode.touched && spostalcode.errors" class="text-danger">
+                          <span *ngIf="spostalcode.hasError('maxlength')">max 15 char</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col">
+              <fieldset class="border p-2">
+                <legend class="w-auto"></legend>
+                <div class="form-check-inline">
+                  <label>
+                    <input  type="checkbox" class="form-check-input"  formControlName="isTermsAccepted">Terms Accepted
+                  </label>
+  
+                </div>
+                <div class="form-check-inline">
+                  <label>
+                    <input type="checkbox" class="form-check-input" [attr.disabled]="true" formControlName="isEmailVerified">Email Verified
+                  </label>
+                </div>
+                <div class="form-check-inline">
+                  <label>
+                    <input type="checkbox" class="form-check-input" formControlName="isTwoFactorOn">Two Factor Auth
+                  </label>
+                </div>
+                <div class="form-check-inline">
+                  <label>
+                    <input type="checkbox" class="form-check-input" [attr.disabled]="true" formControlName="isPhoneVerified">Phone Verified
+                  </label>
+                </div>
+                <div *ngIf="isTermsAccepted.touched && isTermsAccepted.errors" class="text-danger">
+                  <span *ngIf="isTermsAccepted.hasError('required')">Please accept the terms</span>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+          <div class="pt-3">
+            <div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-custom-class">Save Changes</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- MODAL FOR REGISTRATION ERRORS -->
+  <div class="modal" id="errorModal"  role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">{{modalTitle}}</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="list-group-item active">{{modalMessage}}</p>
+          <ul class="list-group" *ngFor="let error of errorList">
+            <li class="list-group-item"><i class="fas fa-times text-danger mr-2"></i>{{error}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  

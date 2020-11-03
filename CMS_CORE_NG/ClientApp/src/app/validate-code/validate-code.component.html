@@ -1,0 +1,38 @@
+<div class="container mt-5">
+    <div class="d-flex justify-content-center h-100">
+        <div class="card">
+            <div class="card-header">
+                <h3>Validate Authentication Code</h3>
+            </div>
+            <div class="card-body" id="sendCode">
+                <form [formGroup]="insertForm" (ngSubmit)="onSubmit()">
+                    <div class="input-group form-group justify-content-center">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text bg-warning" for="Code"><i class="fas fa-lock"></i></label>
+                        </div>
+                        <input id="Code" [formControl]="code" type="text" />
+                        <div class="input-group-append">
+                            <button class="btn btn-warning" type="submit" [disabled]="insertForm.invalid">
+                                <i class="far fa-paper-plane"></i> Send
+                            </button>
+                        </div>
+                    </div>
+                    <div id="errors" class="border border-white p-2">
+                        <div class="errorMessage">
+                            <span
+                                >Invalid Code - Attempts Remaining :<span class="bg-warning p-1 pl-2 pr-2 rounded-0 text-dark ml-2">{{
+                                    attemptsRemaining
+                                }}</span></span
+                            >
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-center links">
+                    Don't have an account? <a class="btn btn-warning ml-1" [routerLink]="['/register']">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

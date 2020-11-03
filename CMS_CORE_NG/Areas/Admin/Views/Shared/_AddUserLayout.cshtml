@@ -1,0 +1,412 @@
+﻿@model ModelService.AddUserModel
+
+<div class="modal fade" id="AddUserModal" role="dialog" aria-labelledby="AddUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <form enctype="multipart/form-data" id="addUserForm" name="addUserForm" method="post" action="@Url.Action("AddUser", "User")">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="AddUserModalLabel">
+                        <i class="fa fa-clipboard-check"></i>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+
+                            <div class="container mb-5" id="profile">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="float-left ">Profile Details</h5>
+                                        <h5 class="float-right "></h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-lg-9">
+                                                <fieldset class="border p-2">
+                                                    <legend class="w-auto">Personal Information</legend>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="firstname" class="form-control-label">
+                                                                    First Name<span>*</span>
+                                                                </label>
+                                                                <div class="controls ">
+                                                                    <input asp-for="FirstName" class="form-control" id="firstname" type="text" placeholder="eg: John" />
+                                                                </div>
+                                                                <span asp-validation-for="FirstName" id="firstnameValidation" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="middlename" class="form-control-label">
+                                                                    Middle Name<span>*</span>
+                                                                </label>
+                                                                <div class="controls ">
+                                                                    <input asp-for="MiddleName" class="form-control" id="middlename" type="text" placeholder="eg: J" />
+                                                                </div>
+                                                                <span asp-validation-for="MiddleName" id="middlenameValidation" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="lastname" class="form-control-label">
+                                                                    Last Name<span>*</span>
+                                                                </label>
+                                                                <div class="controls ">
+                                                                    <input asp-for="LastName" class="form-control" id="lastname" type="text" placeholder="eg: Smith" />
+                                                                </div>
+                                                                <span asp-validation-for="LastName" id="lastnameValidation" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="email" class="form-control-label">
+                                                                    Email<span>*</span>
+                                                                </label>
+                                                                <div class="controls ">
+                                                                    <input asp-for="Email" class="form-control" id="email" type="email" />
+                                                                    <span asp-validation-for="Email" id="emailValidation" class="text-danger"></span>
+                                                                    <div class="text-danger" id="emailValidationError"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="username" class="form-control-label">
+                                                                    Username<span>*</span>
+                                                                </label>
+                                                                <div class="controls">
+                                                                    <input asp-for="Username" class="form-control" id="username" type="text" />
+                                                                    <span asp-validation-for="Username" id="usernameValidation" class="text-danger"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label for="phone" class="form-control-label">
+                                                                    Phone<span>*</span>
+                                                                </label>
+                                                                <div class="controls">
+                                                                    <input asp-for="Phone" class="form-control" id="phone" type="text" placeholder="(123)-456-7890" />
+                                                                    <span asp-validation-for="Phone" id="phoneValidation" class="text-danger"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--Birthday-->
+                                                    <div class="row">
+                                                        <div class="col-md-8">
+                                                            <div class="form-group">
+                                                                <label for="birthdate" class="form-control-label ">Birthday<span>*</span></label>
+                                                                <div class="controls">
+                                                                    <input asp-for="Birthday" type="text" id="birthdate" class="form-control">
+                                                                    <span asp-validation-for="Birthday" id="birthdayValidation" class="text-danger"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="password" class="form-control-label ">Password<span>*</span></label>
+                                                                <div class="input-group">
+                                                                    <input asp-for="Password" type="text" id="password" class="form-control">
+                                                                    <div class="input-group-append">
+                                                                        <a onclick="generatePassword()" class="bg-warning input-group-text">
+                                                                            <span>
+                                                                                <i class="fas fa-sync-alt"></i>
+                                                                            </span>
+                                                                        </a>
+                                                                    </div>
+                                                                    <span asp-validation-for="Password" id="passwordValidation" class="text-danger"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="gender" class="form-control-label">Gender (optional)</label>
+                                                                <div class="controls">
+                                                                    <select asp-for="Gender" class="form-control" id="gender">
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="displayname" class="form-control-label">
+                                                                    Display Name<span>*</span>
+                                                                </label>
+                                                                <div class="controls ">
+                                                                    <input asp-for="DisplayName" class="form-control" id="displayname" type="text" placeholder="General King Koba" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="row">
+                                                    <fieldset class="border p-3 mt-4">
+                                                        <div class="col-12">
+                                                            <div class="form-group" id="profpic">
+                                                                <img src="/uploads/user/profile/default/profile.jpeg" id="imgProfile" class="img-thumbnail" alt="" />
+                                                                <div class="mt-2">
+                                                                    <input asp-for="ProfilePic" type="file" data-type="addForm" id="profpicfile" name="profpicfile" onchange="PreviewImage(this)" />
+                                                                    <a class="btn btn-sm btn-success w-100 text-white" data-type="addForm" onclick="openFileExplorer(this)">Change Photo</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+
+                                                    <fieldset class="border mt-2 w-100">
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <div class="mt-2">
+                                                                    <div class="form-check-inline w-100">
+                                                                        <select asp-for="UserRole" class="form-control" id="role">
+                                                                            <option disabled selected>Select Role</option>
+                                                                            <option value="Customer">Customer</option>
+                                                                            <option value="Administrator">Administrator</option>
+                                                                            <option value="Moderator">Moderator</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <span asp-validation-for="UserRole" id="userRoleValidation" class="text-danger"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <fieldset class="border p-2">
+                                                    <legend class="w-auto">Billing Address</legend>
+                                                    <input hidden type="text" />
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label for="address1" class="form-control-label  requiredField">
+                                                                    Address line 1<span>*</span>
+                                                                </label>
+                                                                <div class="controls ">
+                                                                    <input asp-for="BillingAddress.Line1" class="form-control" id="address1" maxlength="50" type="text" />
+                                                                    <span asp-validation-for="BillingAddress.Line1" id="bgline1Validation" class="text-danger"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <div class="form-group">
+                                                                <label for="address2" class="form-control-label ">Address line 2</label>
+                                                                <div class="controls">
+                                                                    <input asp-for="BillingAddress.Line2" class="form-control" id="address2" maxlength="50" type="text" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="form-group">
+                                                                <label for="unit" class="form-control-label">Suite#</label>
+                                                                <div class="controls ">
+                                                                    <input asp-for="BillingAddress.Unit" class="form-control" id="unit" maxlength="50" type="text" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label for="country" class="form-control-label ">Country<span>*</span></label>
+                                                                <div class="controls">
+                                                                    <select asp-for="BillingAddress.Country" class="form-control" id="country">
+                                                                    </select>
+                                                                </div>
+                                                                <span asp-validation-for="BillingAddress.Country" id="countryValidation" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group mb-0">
+                                                                <label for="state" class="form-control-label  requiredField">
+                                                                    State<span>*</span>
+                                                                </label>
+                                                                <div class="controls">
+                                                                    <select asp-for="BillingAddress.State" class="form-control" id="state">
+                                                                    </select>
+                                                                    <span asp-validation-for="BillingAddress.State" id="_billingAddressStateValidation" class="text-danger"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-8">
+                                                            <div class="form-group mb-0">
+                                                                <label for="city" class="form-control-label  requiredField">
+                                                                    City<span>*</span>
+                                                                </label>
+                                                                <div class="controls">
+                                                                    <input asp-for="BillingAddress.City" class="form-control" id="city" maxlength="75" type="text" />
+                                                                    <span asp-validation-for="BillingAddress.Country" id="_billingAddressCityValidation" class="text-danger"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group mb-0">
+                                                                <label for="postalcode" class="form-control-label  requiredField">
+                                                                    Postal Code<span>*</span>
+                                                                </label>
+                                                                <div class="controls ">
+                                                                    <input asp-for="BillingAddress.PostalCode" class="form-control" id="postalcode" type="text" />
+                                                                    <span asp-validation-for="BillingAddress.PostalCode" id="_billingAddressPostalCodeValidation" class="text-danger"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <fieldset class="border p-2">
+                                                    <legend class="w-auto">Shipping Address</legend>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label for="saddress1" class="form-control-label  requiredField">
+                                                                    Address line 1<span>*</span>
+                                                                    <a class="btn btn-sm btn-warning" data-type="addForm" onclick="copyBillingAddress(this)">Same As Billing</a>
+                                                                </label>
+                                                                <div class="controls ">
+                                                                    <input asp-for="ShippingAddress.Line1" class="form-control" id="saddress1" maxlength="50" type="text" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <div class="form-group">
+                                                                <label for="saddress2" class="form-control-label ">Address line 2</label>
+                                                                <div class="controls ">
+                                                                    <input asp-for="ShippingAddress.Line2" class="form-control" id="saddress2" maxlength="50" type="text" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="form-group">
+                                                                <label for="sunit" class="form-control-label">Suite#</label>
+                                                                <div class="controls ">
+                                                                    <input asp-for="ShippingAddress.Unit" class="form-control" id="sunit" maxlength="50" type="text" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label for="scountry" class="form-control-label ">Country<span>*</span></label>
+                                                                <div class="controls">
+                                                                    <select asp-for="ShippingAddress.Country" class="form-control" id="scountry">
+                                                                    </select>
+                                                                </div>
+                                                                <span asp-validation-for="ShippingAddress.Country" id="scountryValidation" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group mb-0">
+                                                                <label for="sstate" class="form-control-label">
+                                                                    State<span>*</span>
+                                                                </label>
+                                                                <div class="controls">
+                                                                    <select asp-for="ShippingAddress.State" class="form-control" id="sstate">
+                                                                        <option value]="ProfileDetails.shippingAddress.state" disabled selected></option>
+                                                                    </select>
+                                                                    <span asp-validation-for="ShippingAddress.State" id="_shippingAddressStateValidation" class="text-danger"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-8">
+                                                            <div class="form-group mb-0">
+                                                                <label for="scity" class="form-control-label  requiredField">
+                                                                    City<span>*</span>
+                                                                </label>
+                                                                <div class="controls">
+                                                                    <input asp-for="ShippingAddress.City" class="form-control" id="scity" maxlength="75" type="text" />
+                                                                    <span asp-validation-for="ShippingAddress.City" id="_shippingAddressCityValidation" class="text-danger"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group mb-0">
+                                                                <label for="spostalcode" class="form-control-label">
+                                                                    Postal Code<span>*</span>
+                                                                </label>
+                                                                <div class="controls">
+                                                                    <input asp-for="ShippingAddress.PostalCode" class="form-control" id="spostalcode" type="text" />
+                                                                    <span asp-validation-for="ShippingAddress.PostalCode" id="_shippingAddressPostalCodeValidation" class="text-danger"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col">
+                                                <fieldset class="border p-2">
+                                                    <legend class="w-auto"></legend>
+                                                    <div class="form-check-inline">
+                                                        <label>
+                                                            <input asp-for="IsTermsAccepted" type="checkbox" class="form-check-input">Terms Accepted
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check-inline">
+                                                        <label>
+                                                            <input asp-for="IsEmailVerified" type="checkbox" class="form-check-input">Email Verified
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check-inline">
+                                                        <label>
+                                                            <input asp-for="IsTwoFactorOn" type="checkbox" class="form-check-input">Two Factor Auth
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check-inline">
+                                                        <label>
+                                                            <input asp-for="IsPhoneVerified" type="checkbox" class="form-check-input">Phone Verified
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check-inline">
+                                                        <label>
+                                                            <input asp-for="IsEmployee" type="checkbox" class="form-check-input">Employee
+                                                        </label>
+                                                    </div>
+                                                    <div>
+                                                        <span asp-validation-for="IsTermsAccepted" id="isTermsAcceptedValidation" class="text-danger"></span>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                        <div class="float-right mt-2">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            <button type="submit" id="addUserFormsubmit" class="btn btn-primary">Add User</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

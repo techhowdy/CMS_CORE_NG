@@ -1,0 +1,386 @@
+﻿<div class="row">
+    <div class="col">
+        <div class="card mt-3 text-center mb-5">
+            <div class="card-header">
+                <div class="float-left">
+                    <h4>User Roles</h4>
+                </div>
+                <div class="float-right">
+                    <button type="button" class="btn btn-primary" onclick="addRoleById()"><i class="fa fa-plus mr-1"></i>Role</button>
+                    <button type="button" class="btn btn-primary" onclick="loadPermissionTypeModal()"><i class="fa fa-plus mr-1"></i>Permission Type</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="userRoleTable"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Delete Role-->
+<div class="modal fade" id="DeleteRoleModal" role="dialog" aria-labelledby="DeleteRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form id="DeleteModalForm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="DeleteRoleModalLabel">
+                        <i class="fa fa-clipboard-check"></i>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmDeleteRole()">Yes</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Add Role-->
+<div class="modal fade" id="AddRoleModal" role="dialog" aria-labelledby="AddRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form id="AddRoleModalForm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="AddRoleModalLabel">
+                        <i class="fa fa-clipboard-check"></i>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body pb-0">
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group mb-1">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-pen-square"></i>
+                                    </span>
+                                </div>
+                                <input type="text" id="roleName" class="form-control" placeholder="Role Name" aria-label="roleName" aria-describedby="roleName">
+                            </div>
+                            <span class="text-danger" id="roleError"></span>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4">
+                            <fieldset class="border">
+                                <div class="col-12 p-0">
+                                    <div class="form-group m-0" id="profpic">
+                                        <img src="/uploads/user/profile/default/profile.jpeg" id="imgProfile" class="img-thumbnail-border-0 w-100" alt="" />
+                                        <div class="m-0">
+                                            <input type="file" data-type="addForm" class="profpicfile" id="profpicfile" name="profpicfile" onchange="PreviewImage(this)" />
+                                            <a class="btn btn-sm btn-success btn-square w-100 text-white" data-type="addForm" onclick="openFileExplorer(this)">Upload</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-8">
+                            <div class="rolw-options">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <input type="checkbox" id="roleActive" aria-label="Role Active" placeholder="Role Active">
+                                                </div>
+                                            </div>
+                                            <input type="text" placeholder="Role Active" disabled class="form-control" aria-label="role active checkbox">
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text font-weight-bold" id="handleLabel">
+                                                    <i class="fas fa-at"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="roleHandle" placeholder="handle" aria-label="role handle" aria-describedby="handleLabel">
+                                        </div>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col p-0">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <table class="table table-responsive table-bordered mb-0" id="permissionTable" style="table-layout: fixed;">
+                                            <thead class="thead-dark text-center">
+                                                <tr>
+                                                    <th>Type</th>
+                                                    <th>Add</th>
+                                                    <th>Update</th>
+                                                    <th>Delete</th>
+                                                    <th>Read</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="text-danger" id="roleError"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group w-100" role="group">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-window-close mr-2"></i>CANCEL</button>
+                        <button type="button" class="btn btn-success" onclick="resetForm(this)"><i class="fas fa-redo-alt mr-2"></i>RESET</button>
+                        <button type="button" class="btn btn-primary" onclick="confirmAddRole(this)"><i class="fas fa-plus-square mr-2"></i>ADD</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Update Role-->
+<div class="modal fade" id="EditRoleModal" role="dialog" aria-labelledby="EditRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form id="UpdateModalForm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="EditRoleModalLabel">
+                        <i class="fa fa-clipboard-check"></i>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span hidden id="roleIdEdit"></span>
+                    <div class="row">
+                        <div class="col">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-pen-square"></i>
+                                    </span>
+                                </div>
+                                <input type="text" id="roleNameEdit" class="form-control" placeholder="Role Name" aria-label="roleName" aria-describedby="roleName">
+                            </div>
+                            <span class="text-danger" id="roleErrorEdit"></span>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4">
+                            <fieldset class="border">
+                                <div class="col-12 p-0">
+                                    <div class="form-group m-0" id="profpicEdit">
+                                        <img src="/uploads/user/profile/default/profile.jpeg" id="imgProfileEdit" class="img-thumbnail-border-0 w-100" alt="" />
+                                        <div class="m-0">
+                                            <input type="file" data-type="addForm" class="profpicfile" id="profpicfileEdit" name="profpicfileEdit" onchange="PreviewImage(this)" />
+                                            <a class="btn btn-sm btn-success btn-square w-100 text-white" data-type="addForm" onclick="openFileExplorer(this)">Upload</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-8">
+                            <div class="rolw-options">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <input type="checkbox" id="roleActiveEdit" aria-label="Role Active" placeholder="Role Active">
+                                                </div>
+                                            </div>
+                                            <input type="text" placeholder="Role Active" disabled class="form-control" aria-label="role active checkbox">
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text font-weight-bold" id="handleLabelEdit">
+                                                    <i class="fas fa-at"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" id="roleHandleEdit" placeholder="handle" aria-label="role handle" aria-describedby="handleLabel">
+                                        </div>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col p-0">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <table class="table table-responsive table-bordered mb-0" id="permissionTableEdit" style="table-layout: fixed;">
+                                            <thead class="thead-dark text-center">
+                                                <tr>
+                                                    <th>Type</th>
+                                                    <th>Add</th>
+                                                    <th>Update</th>
+                                                    <th>Delete</th>
+                                                    <th>Read</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="text-danger" id="roleErrorEdit"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmUpdateRole(this)">Update</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal View Role-->
+<div class="modal fade" id="ViewRoleModal" role="dialog" aria-labelledby="ViewRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ViewRoleModalLabel">
+                    <i class="fa fa-clipboard-check"></i>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span hidden id="roleIdView"></span>
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-pen-square"></i>
+                                </span>
+                            </div>
+                            <input type="text" disabled id="roleNameView" class="form-control" placeholder="Role Name" aria-label="roleName" aria-describedby="roleName">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4">
+                        <fieldset class="border">
+                            <div class="col-12 p-0">
+                                <div class="form-group m-0" id="profpicview">
+                                    <img src="/uploads/user/profile/default/profile.jpeg" id="imgProfileView" class="img-thumbnail-border-0 w-100" alt="" />
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-8">
+                        <div class="rolw-options">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <input disabled type="checkbox" id="roleActiveView" aria-label="Role Active" placeholder="Role Active">
+                                            </div>
+                                        </div>
+                                        <input type="text" placeholder="Role Active" disabled class="form-control" aria-label="role active checkbox">
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text font-weight-bold" id="handleLabelView">
+                                                <i class="fas fa-at"></i>
+                                            </span>
+                                        </div>
+                                        <input disabled type="text" class="form-control" id="roleHandleView" placeholder="handle" aria-label="role handle" aria-describedby="handleLabel">
+                                    </div>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col p-0">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <table class="table table-responsive table-bordered mb-0" id="permissionTableView" style="table-layout: fixed;">
+                                        <thead class="thead-dark text-center">
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>Add</th>
+                                                <th>Update</th>
+                                                <th>Delete</th>
+                                                <th>Read</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning btn-block" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal RoleType-->
+<div class="modal fade" id="PermissionTypeModal" role="dialog" aria-labelledby="PermissionTypeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="PermissionTypeModalLabel">
+                    <i class="fa fa-clipboard-check"></i>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span hidden id="RoleTypeId"></span>
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-pen-square"></i>
+                                </span>
+                            </div>
+                            <input type="text" id="PermissionTypeName" class="form-control" placeholder="Enter Permission Type" aria-label="roleName" aria-describedby="roleName">
+                        </div>
+                        <span class="text-danger" id="PermissionTypeNameError"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group w-100" role="group">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">CANCEL</button>
+                    <button type="button" class="btn btn-primary" onclick="addRolePermissionType(this)">ADD</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

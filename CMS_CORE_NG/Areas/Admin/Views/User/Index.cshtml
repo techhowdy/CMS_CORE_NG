@@ -1,0 +1,73 @@
+﻿@model ModelService.AdminBaseViewModel
+@{
+    ViewData["Title"] = "Application Users";
+}
+
+<div class="container-fluid">
+    @await Html.PartialAsync("_GetUsersLayout", Model.AddUser)
+</div>
+
+@section Styles
+{
+    <link href="~/lib/tabulator/css/bootstrap/tabulator_bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/lib/limonte-sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <link href="~/lib/jqueryui/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/lib/chosen/chosen.min.css" rel="stylesheet" />
+    <link href="~/lib/custom/css/admin/user.min.css" rel="stylesheet" />
+    <style>
+        .form-control {
+            color: #324148 !important;
+            border-width: 2px !important;
+            border-color: #eaecec !important;
+            padding: .375rem .75rem !important;
+            height: calc(2.25rem + 4px) !important;
+        }
+
+        .chosen-container {
+            width: 100% !important;
+        }
+
+        .chosen-container-single .chosen-single {
+            height: calc(2.25rem + 4px) !important;
+            padding: .375rem .75rem !important;
+            border-radius: 3px !important;
+            border: 2px solid #eaecec !important;
+            color: #324148 !important;
+            font-size: 1rem !important;
+        }
+
+            .chosen-container-single .chosen-single div b {
+                margin-top: 2px !important;
+            }
+
+        .chosen-container-single .chosen-search, .chosen-container .chosen-results {
+            font-size: 1rem !important;
+        }
+    </style>
+}
+
+@section Scripts
+{
+    <script src="~/lib/tabulator/js/tabulator.min.js"></script>
+    <script src="~/lib/custom/js/admin/user.js"></script>
+    <script src="~/lib/limonte-sweetalert2/sweetalert2.min.js"></script>
+    <script src="~/lib/jqueryui/jquery-ui.min.js"></script>
+    <script src="~/lib/chosen/chosen.jquery.min.js"></script>
+    <script src="~/lib/custom/js/common/password-generator.js"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script>
+        $(function () {
+        // extend jquery range validator to work for required checkboxes
+        var defaultRangeValidator = $.validator.methods.range;
+        $.validator.methods.range = function(value, element, param) {
+            console.log("Range validator");
+        	if(element.type === 'checkbox') {
+        		// if it's a checkbox return true if it is checked
+        		return element.checked;
+        	} else {
+        		// otherwise run the default validation function
+        		return defaultRangeValidator.call(this, value, element, param);
+        	}
+        }
+     });</script>
+}

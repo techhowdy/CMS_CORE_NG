@@ -1,0 +1,127 @@
+﻿                            @using ModelService
+                            @model LoginViewModel
+
+                            @{
+                                ViewData["Title"] = "Log in";
+                            }
+
+
+                            @section Styles {
+                                <link href="~/lib/limonte-sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+                            }
+
+
+                            <section class="adminLogin">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="adminLoginFormDiv" id="adminLoginFormDiv">
+                                                <div class="adminLoginFormDivCard card">
+                                                    <div class="inner">
+                                                        <form method="POST" asp-route-returnurl="">
+                                                            <div id="login-form" class="login-form">
+                                                                <h2 class="form-title">Sign In</h2>
+                                                                <div class="form-group">
+                                                                    <input asp-for="Email" type="email" class="form-input" id="emailLogin" placeholder="eg : john@techhowdy.com" />
+                                                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input asp-for="Password" type="password" class="form-input" id="passwordLogin" placeholder="Enter Password" />
+                                                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input asp-for="RememberMe" type="checkbox" id="rememberMe" class="rememberMe" />
+                                                                    <label for="rememberMe" class="label-agree-term">
+                                                                        <span>
+                                                                            <span></span>
+                                                                        </span>Remember password ?
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input type="submit" name="Loginsubmit" id="Loginsubmit" class="form-submit" value="Login" />
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                        <p class="loginArea">Don't remember your password? <a class="loginAreaLink">Forgot Password</a></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </section>
+
+                            @section Scripts
+                            {
+                                <script src="~/lib/limonte-sweetalert2/sweetalert2.min.js"></script>
+                                <script>
+                                    $(function () {
+                                        console.log("ready...!");
+                                        $("#Loginsubmit").on('click', (event) => {
+                                            event.preventDefault();
+                                            let postData = new FormData(event.target.form);
+
+                                            var LoginViewModel = { "Email": "", "Password": "", "RememberMe": false };
+
+                                            LoginViewModel.Email = postData.get("Email");
+                                            LoginViewModel.Password = postData.get("Password");
+                                            LoginViewModel.RememberMe = (postData.get("RememberMe") !== "false");
+
+
+                                            $.ajax({
+                                                type: 'POST',
+                                                url: '@Url.Action("Login", "Account")',
+                                                data: JSON.stringify(LoginViewModel),
+                                                contentType: 'application/json',
+                                                headers: {
+                                                    'X-XSRF-TOKEN': getCookie("XSRF-TOKEN"),
+                                                },
+                                                success: function (result) {
+                                                    Swal.fire({
+                                                        title: 'Success',
+                                                        text: "Logged In Successfully",
+                                                        type: 'success',
+                                                        allowOutsideClick: false,
+                                                        showConfirmButton: false,
+                                                        timer: 1500
+                                                    }).then(function (result) {
+                                                        if (result) {
+                                                            window.location = "/admin/home";
+                                                        }
+                                                    })
+                                                },
+                                                error: function (jqXHR, textStatus, errorThrown) {
+
+                                                    const errors = jqXHR.responseText.split(",");
+                                                    
+                                                    Swal.fire({
+                                                        icon: 'error',
+                                                        title: 'Oops...',
+                                                        text: 'Login Failed',
+                                                        footer: makeArrayList(errors),
+                                                    })
+                                                }
+                                            })
+
+                                        })
+                                    });
+
+
+                                    function makeArrayList(array)
+                                    {
+                                        let list = document.createElement('ul');
+                                        list.className = "list-group";
+                                        for (let i = 0; i < array.length; i++) {
+
+                                            let item = document.createElement('li');
+                                            item.className = "list-group-item bg-danger text-white";
+                                            item.appendChild(document.createTextNode(array[i].replace(/[\[\]"]/g, '').replace(/[\[\]{]/g, '').replace(/[\[\]}]/g, '')));
+                                            list.appendChild(item);
+                                        }
+                                        return list;
+                                    }
+                                </script>
+    
+                            }

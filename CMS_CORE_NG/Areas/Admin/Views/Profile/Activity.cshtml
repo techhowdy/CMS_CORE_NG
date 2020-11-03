@@ -1,0 +1,102 @@
+﻿@{
+    ViewData["Title"] = "Account Activity";
+}
+@model ModelService.AdminBaseViewModel
+
+@section Styles
+{
+    <style>
+        .text-light {
+            color: #848d91 !important;
+        }
+
+        .alert i {
+            font-size: 30px;
+        }
+
+        .alert.alert-wth-icon .alert-icon-wrap {
+            display: block;
+            text-align: center;
+            padding-top: 18px;
+            height: 100%;
+            width: 54px;
+            left: 0;
+            top: 0;
+            position: absolute;
+        }
+
+        .alert-details {
+            margin-left: 2.0rem !important;
+        }
+
+        @@media only screen and (max-width: 600px) {
+            .alert i {
+                display: none;
+            }
+
+            .alert-details {
+                margin-left: 0 !important;
+            }
+        }
+    </style>
+
+}
+
+<div class="container-fluid">
+    <section class="sec-wrapper">
+        <fieldset class="border p-4">
+            <legend class="w-auto">Activity Feed</legend>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="row">
+                        <div class="col-auto">
+                            <ul class="list-group mb-15">
+                                @{
+                                    if (Model.Profile.Activities.Count > 0)
+                                    {
+                                        foreach (var item in Model.Profile.Activities)
+                                        {
+                                            <li class="list-group-item d-flex justify-content-between align-items-center text-light p-0 border-0 mb-1">
+                                                <div class="alert alert-@item.Color alert-wth-icon show m-0" role="alert">
+
+                                                    <span class="alert-icon-wrap">
+                                                        <i class="@item.Icon text-light"></i>
+                                                    </span>
+                                                    <div class="alert-details ml-4">
+                                                        <small>
+                                                            <strong>Message : </strong> @item.Type
+                                                        </small>
+                                                        <small class="ml-2">
+                                                            <strong>Date: </strong> @item.Date
+                                                        </small>
+                                                        <small class="ml-2">
+                                                            <strong>IP : </strong> @item.IpAddress
+                                                        </small>
+                                                        <small class="ml-2">
+                                                            <strong>Country : </strong> @item.Location
+                                                        </small><br />
+                                                        <small>
+                                                            <strong>OS : </strong>@item.OperatingSystem
+                                                        </small>
+                                                    </div>
+
+                                                </div>
+                                            </li>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <li class="list-group-item d-flex justify-content-between align-items-center text-light">
+                                            No Activities
+                                            <i class="fas fa-bell text-light"></i>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </section>
+</div>

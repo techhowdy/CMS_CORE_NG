@@ -1,0 +1,33 @@
+﻿@model ModelService.AdminBaseViewModel
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>ADMIN | Home Page</title>
+    <meta name="description" content="Cms Application Buils with Asp.net Core 3.0 and Angular 10" />
+    <meta name="author" content="Techhowdy" />
+    <!-- Favicon icon -->
+    <link href="~/favicon.ico" rel="icon" />
+    @await Html.PartialAsync("_ApplicationHeaderStylesPartial")
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+
+    <!-- ============================================================== -->
+    <!-- Main wrapper -->
+    <!-- ============================================================== -->
+    <div class="wrapper">
+        @await Html.PartialAsync("_SidebarLayout")
+        <div id="content">
+            @await Html.PartialAsync("_TopbarLayout")
+            @await Html.PartialAsync("_StatsLayout")
+            @RenderBody()
+        </div>
+    </div>
+    @await Html.PartialAsync("_FooterLayout")
+    @await Html.PartialAsync("_UIScriptsPartial")
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

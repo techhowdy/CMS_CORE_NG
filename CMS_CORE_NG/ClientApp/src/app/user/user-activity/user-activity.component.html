@@ -1,0 +1,40 @@
+<div class="container mt-5 mb-5">
+    <section class="sec-wrapper">
+        <fieldset class="border p-4">
+            <legend class="w-auto">Activity Feed</legend>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="row">
+                        <div class="col">
+                            <ul class="list-group mb-15" *ngIf="userActivities.length > 0">
+                                <li
+                                    class="list-group-item d-flex justify-content-between align-items-center text-light p-0 border-0 mb-1"
+                                    *ngFor="let activity of userActivities"
+                                >
+                                    <div class="alert alert-{{ activity.color }} alert-wth-icon show m-0 w-100" role="alert">
+                                        <span class="alert-icon-wrap">
+                                            <i class="{{ activity.icon }} text-light fa-2x d-none d-md-block pl-2"></i>
+                                        </span>
+                                        <div class="alert-details ml-4">
+                                            <small> <strong>Message : </strong>{{ activity.type }} </small>
+                                            <small class="ml-2"> <strong>Date: </strong>{{ activity.date }} </small>
+                                            <small class="ml-2"> <strong>IP : </strong>{{ activity.ipAddress }} </small>
+                                            <small class="ml-2"> <strong>Country : </strong>{{ activity.location }} </small><br />
+                                            <small> <strong>OS : </strong>{{ activity.operatingSystem }} </small>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list-group mb-15" *ngIf="userActivities.length == 0">
+                                <li class="list-group-item d-flex justify-content-between align-items-center text-light">
+                                    No Activities
+                                    <i class="fas fa-bell text-light"></i>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </section>
+</div>

@@ -1,0 +1,124 @@
+/* You can add global styles to this file, and also import other style files */
+html,
+body {
+    height: 100%;
+}
+
+* {
+    font-family: 'Montserrat', sans-serif !important;
+    /* Add !important to overwrite all elements */
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url('assets/fonts/Montserrat/Montserrat-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Montserrat-Black';
+    src: url('assets/fonts/Montserrat/Montserrat-Black.ttf');
+}
+
+@font-face {
+    font-family: 'Montserrat-Bold';
+    src: url('assets/fonts/Montserrat/Montserrat-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'Montserrat-ExtraBold';
+    src: url('assets/fonts/Montserrat/Montserrat-ExtraBold.ttf');
+}
+
+@font-face {
+    font-family: 'Montserrat-Light';
+    src: url('assets/fonts/Montserrat/Montserrat-Light.ttf');
+}
+
+@font-face {
+    font-family: 'Montserrat-ExtraLight';
+    src: url('assets/fonts/Montserrat/Montserrat-ExtraLight.ttf');
+}
+
+.bg-danger {
+    background-color: #fc4b6c !important;
+}
+
+.bg-success {
+    background-color: #21c1d6 !important;
+}
+
+.bg-info {
+    background-color: #1e88e5 !important;
+}
+
+.bg-warning {
+    background-color: #ffb22b !important;
+}
+
+.bg-white {
+    background-color: #fff;
+}
+
+body {
+    padding: 45px 0 0 0;
+    min-height: 100%;
+    position: relative;
+    margin: 0;
+}
+
+.navbar {
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eaecec;
+}
+
+.sec-wrapper {
+    background: #fff;
+    padding: 1.5rem;
+    border: 1px solid #eaecec;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 0.25rem;
+    margin-bottom: 14px;
+}
+
+.pg-wrapper {
+    padding: 57px 0 60px;
+    position: relative;
+}
+
+.card {
+    border-radius: 4px 4px 4px 4px;
+    margin-bottom: 30px;
+}
+
+.card-hover {
+    -webkit-transition: all 0.25s ease;
+    -o-transition: all 0.25s ease;
+    -moz-transition: all 0.25s ease;
+    transition: all 0.25s ease;
+}
+
+.chosen-container-single .chosen-single {
+    height: calc(2.25rem + 4px) !important;
+    padding: 0.375rem 0.75rem !important;
+    border-radius: 3px !important;
+    border: 2px solid #eaecec !important;
+    color: #324148 !important;
+    font-size: 1rem !important;
+}
+
+.chosen-container-single .chosen-single div b {
+    margin-top: 2px !important;
+}
+
+.chosen-container-single .chosen-search,
+.chosen-container .chosen-results {
+    font-size: 1rem !important;
+}
+
+.form-control {
+    color: #324148;
+    border-width: 2px;
+    border-color: #eaecec;
+    padding: 0.375rem 0.75rem;
+    height: calc(2.25rem + 4px);
+}

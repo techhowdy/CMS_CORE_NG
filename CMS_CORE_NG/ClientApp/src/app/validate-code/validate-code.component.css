@@ -1,0 +1,28 @@
+.container {
+    height: 100%;
+    align-content: center;
+    margin-top: 10%;
+}
+
+.card {
+    height: 300px;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 450px;
+    background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+.card-header h3 {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.card-footer {
+    overflow: hidden;
+    color: white;
+}
+
+.errorMessage,
+.remember {
+    color: white;
+}

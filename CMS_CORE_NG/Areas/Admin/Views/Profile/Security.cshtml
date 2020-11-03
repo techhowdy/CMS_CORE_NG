@@ -1,0 +1,170 @@
+﻿@{
+    ViewData["Title"] = "Security Options";
+}
+@model ModelService.AdminBaseViewModel
+
+@section Styles
+{
+    <link href="~/lib/limonte-sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+}
+
+
+<div class="container-fluid">
+    <section class="sec-wrapper">
+        <fieldset class="border p-4">
+            <legend class="w-auto">Change Password</legend>
+            <form id="resetPasswordForm">
+                <input hidden asp-for="@Model.ResetPassword.Email" class="form-control" id="email" placeholder="*********" value="@Model.Profile.Email" type="text">
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label for="oldPassword">Old Password</label>
+                        <input asp-for="@Model.ResetPassword.OldPassword" class="form-control" id="oldPassword" placeholder="*********" value="" type="password">
+                        <span asp-validation-for="@Model.ResetPassword.OldPassword" id="oldPassValidation" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label for="newPassword">New Password</label>
+                        <input asp-for="@Model.ResetPassword.Password" class="form-control" id="newPassword" placeholder="*********" value="" type="password">
+                        <span asp-validation-for="@Model.ResetPassword.Password" id="newPassValidation" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label for="cnewPassword">Confirm New Password</label>
+                        <input asp-for="@Model.ResetPassword.ConfirmPassword" class="form-control" value="" id="cnewPassword" placeholder="*********" type="password">
+                        <span asp-validation-for="@Model.ResetPassword.ConfirmPassword" id="cnewPassValidation" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row text-right">
+                    <div class="col">
+                        <button class="btn btn-primary btn-md mt-3 d-none d-md-inline-block d-sm-none" id="btnMdUpdatePassword">
+                            <span class="btn-text"><i class="fas fa-pen mr-2"></i>UPDATE</span>
+                        </button>
+                        <!-- Only visible on small Screen -->
+                        <button class="btn btn-primary btn-md mt-3 btn-block d-block  d-md-none" id="btnSmUpdatePassword">
+                            <span class="btn-text"><i class="fas fa-pen mr-2"></i>UPDATE</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div class="row mt-3">
+                <div class="col-auto">
+                    <ul class="list-group mb-15">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            At least one upper case English letter
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            At least one upper case English letter
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            At least one lower case English letter
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            At least one digit
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            At least one special character
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Minimum eight in length
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </fieldset>
+    </section>
+</div>
+
+@section Scripts {
+    <script src="~/lib/limonte-sweetalert2/sweetalert2.min.js"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script>
+        let ResetPasswordViewModel = { "OldPassword": "", "Password": "", "ConfirmPassword": "", "Email": "@Model.Profile.Email" };
+
+         $(function() {
+             $("#btnMdUpdatePassword").click(function (event) {
+                 event.preventDefault();
+                 changePassword();
+             });
+
+             $("#btnSmUpdatePassword").click(function (event) {
+                 event.preventDefault();
+                 changePassword();
+             });
+         });
+
+         function changePassword() {
+
+             if ($('#resetPasswordForm').valid())
+              {
+                  if($('#oldPassword').val() === "")
+                  {
+                      $('#oldPassValidation').text("please enter your old password.")
+                      return;
+                  }
+
+                  ResetPasswordViewModel.OldPassword = $("#oldPassword").val();
+                  ResetPasswordViewModel.Password = $("#newPassword").val();
+                  ResetPasswordViewModel.ConfirmPassword = $("#cnewPassword").val();
+
+                  $.ajax({
+                          type: 'POST',
+                          url: "/api/v1/Profile/ChangePassword/",
+                          data: JSON.stringify(ResetPasswordViewModel),
+                          contentType: "application/json",
+                          headers: {
+                              'X-XSRF-TOKEN': getCookie("XSRF-TOKEN"),
+                          },
+                          success: function (result) {
+                              $('#resetPasswordForm')[0].reset();
+                              Swal.fire(
+                                  'Password Changed',
+                                  result,
+                                  'success'
+                              );
+                          },
+                          error: function (jqXHR, textStatus, errorThrown) {
+                              // Split the error string:
+                              const errors = jqXHR.responseText.split(",");
+
+                              Swal.fire({
+                                  icon: 'error',
+                                  title: 'Error!',
+                                  text: 'Password Could not be changed',
+                                  footer: makeArrayList(errors),
+
+                              })
+                          }
+                  });
+              }
+              else
+              {
+                  var $errors = $("form").find(".field-validation-error span");
+                  console.log($errors);
+              }
+         }
+        
+
+         function makeArrayList(array)
+         {
+             // Create the list element:
+             let list = document.createElement('ul');
+
+             // add class to element
+             list.className = "list-group";
+
+             for (let i = 0; i < array.length; i++) {
+                 // Create the list item:
+                 let item = document.createElement('li');
+
+                 item.className = "list-group-item";
+                 // Set its contents: => g in replace() means case sensitive
+                 item.appendChild(document.createTextNode(array[i].replace(/[\[\]"]/g, '')));
+
+                 // Add it to the list:
+                 list.appendChild(item);
+             }
+
+             // Finally, return the constructed list:
+             return list;
+
+         }
+    </script>
+}

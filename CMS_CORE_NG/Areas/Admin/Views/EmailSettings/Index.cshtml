@@ -1,0 +1,287 @@
+﻿@model ModelService.AdminBaseViewModel
+@{
+    ViewData["Title"] = "Email Settings";
+}
+
+<div class="container-fluid">
+    <section class="sec-wrapper">
+        <fieldset class="border p-4">
+            <legend class="w-auto">Email Settings</legend>
+            <div class="row">
+                <div class="col">
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fas fa-bell mr-1"></i>
+                        <span>New changes would not take effect untill server is re-started.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <h6 class="card-header d-flex align-items-center">
+                            <i class="fas fa-envelope-open-text mr-2"></i>SendGrid Settings
+                        </h6>
+                        <div class="card-body">
+                            <form id="sitewideSettingsForm">
+                                @Html.AntiForgeryToken()
+                                <div class="row">
+                                    <div class="col-md-4 form-group">
+                                        <label for="sendgridUsername">SendGrid Username</label>
+                                        <input class="form-control" id="sendgridUsername" placeholder="eg: techhowdy" value="@Model.SendGridOption.SendGridUser" type="text">
+                                    </div>
+                                    <div class="col-md-8 form-group">
+                                        <label for="sendgridKey">SendGrid API Key</label>
+                                        <input class="form-control" id="sendgridKey" value="@Model.SendGridOption.SendGridKey" placeholder="eg: Enter your SendGrid API Key" type="text">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 form-group">
+                                        <label for="sendgridFromName">From Name</label>
+                                        <input class="form-control" id="sendgridFromName" placeholder="eg: techhowdy" value="@Model.SendGridOption.FromFullName" type="text">
+                                    </div>
+                                    <div class="col-md-6  form-group">
+                                        <label for="sendgridFromEmail">From Email</label>
+                                        <input class="form-control" id="sendgridFromEmail" placeholder="eg: john@techhowdy.com" value="@Model.SendGridOption.FromEmail" type="email">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="sendGridIsDefault">Is Default Provider</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend m-0">
+                                                <div class="input-group-text">
+                                                    <input type="checkbox" id="sendGridIsDefault" aria-label="Is Default" placeholder="Is Default" @(Model.SendGridOption.IsDefault == true ? "checked" : "")>
+                                                </div>
+                                            </div>
+                                            <input type="text" placeholder="Default Email Provider" disabled class="form-control" aria-label="Default Email Provider">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row text-right">
+                                    <div class="col">
+                                        <button class="btn btn-primary btn-md mt-3 d-none d-md-inline-block d-sm-none" id="btnMdUpdateSengridOptions">
+                                            <span class="btn-text"><i class="fas fa-pen mr-2"></i>UPDATE</span>
+                                        </button>
+                                        <!-- Only visible on small Screen -->
+                                        <button class="btn btn-primary btn-md mt-3 btn-block d-block d-md-none" id="btnSmUpdateSengridOptions">
+                                            <span class="btn-text"><i class="fas fa-pen mr-2"></i>UPDATE</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="card">
+                        <h6 class="card-header d-flex align-items-center">
+                            <i class="fas fa-envelope-open-text mr-2"></i>SMTP Settings
+                        </h6>
+                        <div class="card-body">
+                            <form id="smtpSettingsForm">
+                                <div class="row">
+                                    <div class="col-md-3 form-group">
+                                        <label for="smtpUsername">SMTP Username</label>
+                                        <input class="form-control" id="smtpUsername" placeholder="eg: techhowdy" value="@Model.SmtpOption.SmtpUserName" type="text">
+                                    </div>
+                                    <div class="col-md-3 form-group">
+                                        <label for="smtpPassword">SMTP Password</label>
+                                        <input class="form-control" id="smtpPassword" placeholder="*******" value="@Model.SmtpOption.SmtpPassword" type="password">
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="smtpHost">SMTP HOST</label>
+                                        <input class="form-control" id="smtpHost" placeholder="eg: smtp.gmail.com" value="@Model.SmtpOption.SmtpHost" type="text">
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="smtpPort">SMTP PORT</label>
+                                        <input class="form-control" id="smtpPort" placeholder="eg: 587" type="text" value="@Model.SmtpOption.SmtpPort">
+                                    </div>
+                                    <div class="col-md-2 form-group">
+                                        <label for="smtpSsl">Use SSL</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend m-0">
+                                                <div class="input-group-text">
+                                                    <input type="checkbox" id="smtpSsl" aria-label="Use SSL" placeholder="Use SSL" @(Model.SmtpOption.SmtpSsl == true ? "checked" : "")>
+                                                </div>
+                                            </div>
+                                            <input type="text" placeholder="Use SSL" disabled class="form-control" aria-label="Use SSL">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 form-group">
+                                        <label for="smtpFromName">From Name</label>
+                                        <input class="form-control" id="smtpFromName" placeholder="eg: techhowdy" value="@Model.SmtpOption.FromFullName" type="text">
+                                    </div>
+                                    <div class="col-md-6  form-group">
+                                        <label for="smtpFromEmail">From Email</label>
+                                        <input class="form-control" id="smtpFromEmail" placeholder="eg: john@techhowdy.com" value="@Model.SmtpOption.FromEmail" type="email">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="smtpIsDefault">Is Default Provider</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend m-0">
+                                                <div class="input-group-text">
+                                                    <input type="checkbox" id="smtpIsDefault" aria-label="Is Default" placeholder="Is Default" @(Model.SmtpOption.IsDefault == true ? "checked" : "")>
+                                                </div>
+                                            </div>
+                                            <input type="text" placeholder="Default Email Provider" disabled class="form-control" aria-label="Default Email Provider">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row text-right">
+                                    <div class="col">
+                                        <button class="btn btn-primary btn-md mt-3 d-none d-md-inline-block d-sm-none" id="btnMdUpdateSmtpOptions">
+                                            <span class="btn-text"><i class="fas fa-pen mr-2"></i>UPDATE</span>
+                                        </button>
+                                        <!-- Only visible on small Screen -->
+                                        <button class="btn btn-primary btn-md mt-3 btn-block d-block  d-md-none" id="btnSmUpdateSmtpOptions">
+                                            <span class="btn-text"><i class="fas fa-pen mr-2"></i>UPDATE</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </section>
+</div>
+
+<div class="modal" id="updateSuccessModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Modal Heading</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Reload page to see changes.
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" id="reloadPageBtn">Reload</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/limonte-sweetalert2/sweetalert2.min.js"></script>
+    <script>
+
+        $(function() {
+           $('#btnMdUpdateSengridOptions').click(function(e) {
+               e.preventDefault();
+               UpdateSengridOptions();
+           });
+
+           $('#btnSmUpdateSengridOptions').click(function(e) {
+                    e.preventDefault();
+                   UpdateSengridOptions();
+           });
+
+           $('#btnMdUpdateSmtpOptions').click(function(e) {
+                          e.preventDefault();
+                          UpdateSmtpOptions();
+           });
+
+           $('#btnSmUpdateSmtpOptions').click(function(e) {
+                               e.preventDefault();
+                              UpdateSmtpOptions();
+           });
+
+           $('#reloadPageBtn').click(function(e) {
+                e.preventDefault();
+                window.location.reload();
+           });
+        });
+
+
+        function UpdateSmtpOptions() {
+
+          let smtpUser = $("#smtpUsername").val();
+          let smtpPassword = $("#smtpPassword").val();
+          let smtpFromFullName = $("#smtpFromName").val();
+          let smtpFromEmail = $("#smtpFromEmail").val();
+          let smtpHost = $("#smtpHost").val();
+          let smtpPort = Number($("#smtpPort").val());
+          let smtpSsl =  $("#smtpSsl").is(":checked");
+          let smtpIsDefault = $("#smtpIsDefault").is(":checked");
+          const smtpOptions =
+          {
+              "SmtpUserName" : smtpUser,
+              "SmtpPassword" : smtpPassword,
+              "FromFullName" : smtpFromFullName,
+              "FromEmail" : smtpFromEmail,
+              "SmtpHost" : smtpHost,
+              "SmtpPort" : smtpPort,
+              "SmtpSsl" : smtpSsl,
+              "IsDefault" : smtpIsDefault
+          };
+          console.log(smtpOptions);
+          $.ajax({
+              type: 'POST',
+              url: "@Url.Action("UpdateSmtpOptions", "EmailSettings")",
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              data: JSON.stringify(smtpOptions),
+              headers: {
+                  'X-XSRF-TOKEN': getCookie("XSRF-TOKEN"),
+              },
+              success: function (result) {
+                  console.log(result);
+                  if (result)
+                  {
+                      console.log("Success");
+                      $(".container-fluid").css({ opacity: 0.5 });
+                      $("#updateSuccessModal .modal-title").text("SMTP Email Settings Updated")
+                      $("#updateSuccessModal").show();
+                  }
+              },
+              error: function() {
+                alert("Error : Request could not be processed. Try again Later");
+              }
+          });
+        }
+
+        function UpdateSengridOptions() {
+            let sendgridUser = $("#sendgridUsername").val();
+            let sendgridKey = $("#sendgridKey").val();
+            let sendgridFromFullName = $("#sendgridFromName").val();
+            let sendgridromEmail = $("#sendgridFromEmail").val();
+            let sendgridIsDefault = $("#sendGridIsDefault").is(":checked");
+            const sendGridOptions = {"SendGridUser" : sendgridUser, "SendGridKey" : sendgridKey, "FromFullName" : sendgridFromFullName, "FromEmail" : sendgridromEmail, "IsDefault" : sendgridIsDefault };
+            console.log(sendGridOptions);
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("UpdateSengridOptions", "EmailSettings")",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(sendGridOptions),
+                headers: {
+                    'X-XSRF-TOKEN': getCookie("XSRF-TOKEN"),
+                },
+                success: function (result) {
+                    console.log(result);
+                    if (result)
+                    {
+                        console.log("Success");
+                        $(".container-fluid").css({ opacity: 0.5 });
+                        $("#updateSuccessModal .modal-title").text("SendGrid Email Settings Updated")
+                        $("#updateSuccessModal").show();
+                    }
+                },
+                error: function() {
+                  alert("Error : Request could not be processed. Try again Later");
+                }
+            });
+        }       
+    </script>
+}

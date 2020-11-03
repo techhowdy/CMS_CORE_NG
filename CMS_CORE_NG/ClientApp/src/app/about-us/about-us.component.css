@@ -1,0 +1,134 @@
+.card-body-content {
+    padding-left: 0;
+    padding-right: 0 !important;
+}
+
+.card-body-content h2 {
+    margin-bottom: 18px;
+    font-size: 35px;
+    font-weight: 800;
+}
+
+.card-body-content .features-list {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    list-style-type: none;
+    margin-bottom: 0;
+    margin-top: -10px;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.card-body-content .features-list li {
+    flex: 0 0 50%;
+    max-width: 50%;
+    margin-top: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.card-body-content a {
+    text-decoration: none;
+}
+
+.card-body-content .sub-title {
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    color: #4f87fb;
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.card-body-content .features-list li span i {
+    left: auto;
+    right: 0;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #4f87fb;
+    width: 25px;
+    height: 23px;
+    line-height: 23px;
+    text-align: center;
+    border-radius: 3px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.about-image {
+    text-align: center;
+}
+
+.about-image img {
+    border-radius: 5px;
+}
+
+img {
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+    border-style: none;
+}
+
+@media only screen and (max-width: 767px) {
+    .card-body-content {
+        text-align: center;
+        margin-top: 30px;
+        padding-left: 0;
+        padding-right: 0 !important;
+    }
+
+    .card-body-content .sub-title {
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+
+    .card-body-content h2 {
+        font-size: 21px;
+        line-height: 1.3;
+    }
+
+    .card-body-content .features-list li {
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-top: 12px;
+    }
+
+    .card-body-content .features-list li span {
+        font-size: 14px;
+        padding-left: 0;
+        padding-right: 0;
+        display: block;
+        position: relative;
+        font-weight: 600;
+    }
+
+    .card-body-content .features-list li span i {
+        display: none;
+    }
+
+    .card-body-content .image {
+        order: 1;
+    }
+}
+
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .card-body-inner {
+        margin-top: 35px;
+    }
+    .card-body-inner .image {
+        -webkit-box-ordinal-group: 2;
+        -ms-flex-order: 1;
+        order: 1;
+    }
+    .card-body-inner .content {
+        -webkit-box-ordinal-group: 3;
+        -ms-flex-order: 2;
+        order: 2;
+    }
+}

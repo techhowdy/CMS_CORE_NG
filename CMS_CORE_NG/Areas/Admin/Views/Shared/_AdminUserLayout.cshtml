@@ -1,0 +1,53 @@
+﻿@model ModelService.AdminBaseViewModel
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@Model.SiteWideSetting.WebsiteName | @ViewBag.Title</title>
+    <meta name="description" content="@Model.SiteWideSetting.WebsiteDescription" />
+    <meta name="author" content="@Model.SiteWideSetting.WebsiteAuthor" />
+    <!-- Favicon icon -->
+    <link href="~/favicon.ico" rel="icon" />
+
+    @await Html.PartialAsync("_ApplicationHeaderStylesPartial")
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+
+    <!-- ============================================================== -->
+    <!-- Main wrapper -->
+    <!-- ============================================================== -->
+    <div class="wrapper">
+        @await Html.PartialAsync("_SidebarLayout")
+        <div id="content">
+            @await Html.PartialAsync("_TopbarLayout")
+            @RenderBody()
+        </div>
+
+
+        @await Html.PartialAsync("_FooterLayout")
+    </div>
+
+
+    <environment include="Development">
+        <script src="~/lib/jquery/jquery.min.js"></script>
+        <!-- Bootstrap tether Core JavaScript -->
+        <script src="~/lib/popper.js/umd/popper.js"></script>
+        <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+        <script src="~/lib/custom/js/admin/admin.js"></script>
+        <!-- Custom JS -->
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/jquery/jquery.min.js"></script>
+        <!-- Bootstrap tether Core JavaScript -->
+        <script src="~/lib/popper.js/umd/popper.min.js"></script>
+        <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+        <!-- Custom JS -->
+    </environment>
+
+    @RenderSection("Scripts", required: false)
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="Welcome to the Super Admin Panel of Car Dealer" />
+    <meta name="author" content="Techhowdy" />
+    <!-- Favicon icon -->
+    <link href="~/favicon.ico" rel="icon" />
+    <environment include="Development">
+        <!-- Custom CSS -->
+        <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+        <link href="~/lib/custom/css/admin/login.css" rel="stylesheet" />
+        <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+        <!-- Font Awesome J -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    </environment>
+    <environment exclude="Development">
+        <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="~/lib/custom/css/admin/login.min.css" rel="stylesheet" />
+        <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
+    </environment>
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+
+    <!-- ============================================================== -->
+    <!-- Main wrapper -->
+    <!-- ============================================================== -->
+    <div class="wrapper">
+
+        <div class="container-fluid bg-white shadow">
+
+            @RenderBody()
+
+        </div>
+        <footer class="container-fluid fixed-bottom">
+            <div class="copyright text-center my-auto">
+                <span> Admin Panel Created By <a href="https://techhowdy.com">Techhowdy<sup>&copy;</sup>2019</a></span>
+            </div>
+        </footer>
+
+    </div>
+
+
+    <environment include="Development">
+        <script src="~/lib/jquery/jquery.js"></script>
+        <!-- Bootstrap tether Core JavaScript -->
+        <script src="~/lib/popper.js/umd/popper.js"></script>
+        <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+        <!-- Custom JS -->
+        <script src="~/lib/custom/js/admin/admin.js"></script>
+
+
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/jquery/jquery.min.js"></script>
+        <script src="~/lib/popper.js/umd/popper.min.js"></script>
+        <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+        <script src="~/lib/custom/js/admin/admin.min.js"></script>
+    </environment>
+    @RenderSection("Scripts", required: false)
+</body>
+
+</html>

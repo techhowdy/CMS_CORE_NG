@@ -1,0 +1,39 @@
+﻿[
+  {
+    "outputFileName": "wwwroot/lib/custom/css/admin/admin.min.css",
+    "inputFiles": [
+      "wwwroot/lib/custom/css/admin/admin.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/custom/css/admin/login.min.css",
+    "inputFiles": [
+      "wwwroot/lib/custom/css/admin/login.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/custom/css/admin/user.min.css",
+    "inputFiles": [
+      "wwwroot/lib/custom/css/admin/user.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/custom/css/notification/notification.min.css",
+    "inputFiles": [
+      "wwwroot/lib/custom/css/notification/notification.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/custom/js/account/forgot-password.min.js",
+    "inputFiles": [
+      "wwwroot/lib/custom/js/account/forgot-password.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/custom/js/admin/admin.min.js",
+    "inputFiles": [
+      "wwwroot/lib/custom/js/admin/admin.js"
+    ],
+    "sourceMap": false
+  }
+]

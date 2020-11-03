@@ -1,0 +1,10 @@
+.input-group-prepend span {
+    width: 50px;
+    background-color: #ffc312;
+    color: black;
+    border: 0 !important;
+}
+
+.container {
+    max-width: 600px !important;
+}

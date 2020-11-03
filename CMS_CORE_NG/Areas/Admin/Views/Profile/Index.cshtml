@@ -1,0 +1,571 @@
+﻿            @{
+                ViewData["Title"] = "User Profile";
+            }
+            @model ModelService.AdminBaseViewModel
+
+            @section Styles
+            {
+                <link href="~/lib/jqueryui/jquery-ui.min.css" rel="stylesheet" />
+                <link href="~/lib/limonte-sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+                <link href="~/lib/chosen/chosen.min.css" rel="stylesheet" />
+                <style>
+
+                    #profpicfile {
+                        display: none;
+                    }
+
+                    .badge.badge-outline.badge-dark {
+                        border-color: #324148;
+                        color: #324148;
+                    }
+
+                    .badge.badge-outline {
+                        background: transparent;
+                        border: 2px solid;
+                    }
+
+                    .badge {
+                        font-weight: 500;
+                        border-radius: 4px;
+                        padding: 5px 7px;
+                        font-size: 72%;
+                        letter-spacing: 0.3px;
+                        vertical-align: middle;
+                        display: inline-block;
+                        text-align: center;
+                        text-transform: capitalize;
+                    }
+
+                    .form-control {
+                        color: #324148;
+                        border-width: 2px;
+                        border-color: #eaecec;
+                        padding: .375rem .75rem;
+                        height: calc(2.25rem + 4px);
+                    }
+
+                    .chosen-container-single .chosen-single {
+                        height: calc(2.25rem + 4px) !important;
+                        padding: .375rem .75rem !important;
+                        border-radius: 3px !important;
+                        border: 2px solid #eaecec !important;
+                        color: #324148 !important;
+                        font-size: 1rem !important;
+                    }
+
+                        .chosen-container-single .chosen-single div b {
+                            margin-top: 2px !important;
+                        }
+
+                    .chosen-container-single .chosen-search, .chosen-container .chosen-results {
+                        font-size: 1rem !important;
+                    }
+                </style>
+            }
+
+            <div class="container mb-5" id="profile" *ngIf="isProfileLoaded; else loading">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="float-left">
+                            PROFILE DETAILS
+                            <sup>
+                                <span class="badge badge-primary ml-1" id="appUserRole"></span>
+                            </sup>
+                        </h5>
+                        <h5 class="badge badge-dark badge-outline float-right" id="fullName"></h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="editUserForm">
+                            <div class="row">
+                                <div class="col-lg-9">
+                                    <fieldset class="border p-2">
+                                        <legend class="w-auto">Personal Information</legend>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group mb-0">
+                                                    <label for="firstname" class="form-control-label">
+                                                        Firstname<span>*</span>
+                                                    </label>
+                                                    <div class="controls">
+                                                        <input asp-for="@Model.AddUser.FirstName" class="form-control" id="firstname" placeholder="eg: John" required type="text" />
+                                                        <span asp-validation-for="@Model.AddUser.FirstName" id="_firstnameValidation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group mb-0">
+                                                    <label for="middlename" class="form-control-label">
+                                                        Middlename
+                                                    </label>
+                                                    <div class="controls">
+                                                        <input asp-for="@Model.AddUser.MiddleName" class="form-control" id="middlename" placeholder="eg: W" type="text" />
+                                                        <span asp-validation-for="@Model.AddUser.MiddleName" id="_middlenameValidation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group mb-0">
+                                                    <label for="lastname" class="form-control-label">
+                                                        Lastname<span>*</span>
+                                                    </label>
+                                                    <div class="controls">
+                                                        <input asp-for="@Model.AddUser.LastName" class="form-control" id="lastname" required type="text" placeholder="eg: Smith" />
+                                                        <span asp-validation-for="@Model.AddUser.LastName" id="_lastnameValidation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group mb-0">
+                                                    <label for="email" class="form-control-label">
+                                                        Email<span>*</span>
+                                                    </label>
+                                                    <div class="controls">
+                                                        <input asp-for="@Model.AddUser.Email" class="form-control" id="email" disabled required type="email" />
+                                                        <span asp-validation-for="@Model.AddUser.Email" id="_emailValidation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group mb-0">
+                                                    <label for="username" class="form-control-label">
+                                                        Username<span>*</span>
+                                                    </label>
+                                                    <div class="controls">
+                                                        <input asp-for="@Model.AddUser.Username" class="form-control" id="username" disabled required type="text" />
+                                                        <span asp-validation-for="@Model.AddUser.Username" id="_usernameValidation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group mb-0">
+                                                    <label for="phone" class="form-control-label">
+                                                        Phone<span>*</span>
+                                                    </label>
+                                                    <div class="controls">
+                                                        <input asp-for="@Model.AddUser.Phone" class="form-control" id="phone" required type="text" placeholder="(123)-456-7890" />
+                                                        <span asp-validation-for="@Model.AddUser.Phone" id="_phoneValidation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Birthday-->
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group mb-0">
+                                                    <label for="birthdate" class="form-control-label ">Birthday<span>*</span></label>
+                                                    <div class="controls">
+                                                        <input asp-for="@Model.AddUser.Birthday" type="text" id="birthdate" class="form-control" placeholder="mm/dd/yyyy">
+                                                        <span asp-validation-for="@Model.AddUser.Birthday" id="_birthdayValidation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group mb-0">
+                                                    <label for="gender" class="form-control-label">Gender (optional)</label>
+                                                    <div class="controls">
+                                                        <select asp-for="@Model.AddUser.Gender" class="form-control" id="gender" required>
+                                                            <option value="Select Gender" selected disabled>Select Gender</option>
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                            <option value="Transgender">Transgender</option>
+                                                            <option value="Two-Spirit">Two-Spirit</option>
+                                                            <option value="Cisgender">Cisgender</option>
+                                                            <option value="Non-Binary">Non-Binary</option>
+                                                            <option value="Gender Neutral">Gender Neutral</option>
+                                                            <option value="Prefer Not To Say">Prefer Not To Say</option>
+                                                            <option value="Other">Other</option>
+                                                        </select>
+                                                        <span asp-validation-for="@Model.AddUser.Gender" id="_genderValidation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group mb-0">
+                                                    <label for="displayname" class="form-control-label">
+                                                        Display Name<span>*</span>
+                                                    </label>
+                                                    <div class="controls ">
+                                                        <input asp-for="@Model.AddUser.DisplayName" class="form-control" id="displayname" required type="text" placeholder="General King Koba" [value]="ProfileDetails.displayname" />
+                                                        <span asp-validation-for="@Model.AddUser.DisplayName" id="_displayNameValidation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-3">
+                                    <fieldset class="border p-3 mt-4">
+                                        <div class="col-12">
+                                            <div class="form-group mb-0" id="profpic">
+                                                <img src="" id="imgProfile" class="img-thumbnail w-100" alt="" />
+                                                <div class="mt-2">
+                                                    <input type="file" onchange="onFileChanged(this)" id="profpicfile" name="profpicfile" />
+                                                    <a onclick="triggerInput()" class="btn btn-sm btn-success w-100 text-white">Change Photo</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <fieldset class="border p-2">
+                                        <legend class="w-auto">Billing Address</legend>
+                                        <input type="text" hidden id="userId" />
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group mb-0">
+                                                    <label for="address1" class="form-control-label">
+                                                        Address line 1<span>*</span>
+                                                    </label>
+                                                    <div class="controls ">
+                                                        <input asp-for="@Model.AddUser.BillingAddress.Line1" class="form-control" id="address1" maxlength="50" type="text" />
+                                                        <span asp-validation-for="@Model.AddUser.BillingAddress.Line1" id="_billingAddressLine1Validation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="form-group mb-0">
+                                                    <label for="address2" class="form-control-label ">Address line 2</label>
+                                                    <div class="controls">
+                                                        <input asp-for="@Model.AddUser.BillingAddress.Line2" class="form-control" id="address2" maxlength="50" type="text" />
+                                                        <span asp-validation-for="@Model.AddUser.BillingAddress.Line2" id="_billingAddressLine2Validation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="form-group mb-0">
+                                                    <label for="unit" class="form-control-label">Suite#</label>
+                                                    <div class="controls ">
+                                                        <input asp-for="@Model.AddUser.BillingAddress.Unit" class="form-control" id="unit" maxlength="50" type="text" />
+                                                        <span asp-validation-for="@Model.AddUser.BillingAddress.Unit" id="_billingAddressUnitValidation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group mb-0">
+                                                    <label for="country" class="form-control-label requiredField">Country<span>*</span></label>
+                                                    <div class="controls">
+                                                        <select asp-for="@Model.AddUser.BillingAddress.Country" class="form-control form-control-chosen" id="country" required>
+                                                        </select>
+                                                        <span asp-validation-for="@Model.AddUser.BillingAddress.Country" id="_billingAddressCountryValidation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group mb-0">
+                                                    <label for="state" class="form-control-label  requiredField">
+                                                        State<span>*</span>
+                                                    </label>
+                                                    <div class="controls">
+                                                        <select asp-for="@Model.AddUser.BillingAddress.State" class="form-control" id="state">
+                                                        </select>
+                                                        <span asp-validation-for="@Model.AddUser.BillingAddress.State" id="_billingAddressStateValidation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="form-group mb-0">
+                                                    <label for="city" class="form-control-label  requiredField">
+                                                        City<span>*</span>
+                                                    </label>
+                                                    <div class="controls">
+                                                        <input asp-for="@Model.AddUser.BillingAddress.City" class="form-control" id="city" maxlength="75" type="text" />
+                                                        <span asp-validation-for="@Model.AddUser.BillingAddress.Country" id="_billingAddressCityValidation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group mb-0">
+                                                    <label for="postalcode" class="form-control-label  requiredField">
+                                                        Postal Code<span>*</span>
+                                                    </label>
+                                                    <div class="controls ">
+                                                        <input asp-for="@Model.AddUser.BillingAddress.PostalCode" class="form-control" id="postalcode" type="text" />
+                                                        <span asp-validation-for="@Model.AddUser.BillingAddress.PostalCode" id="_billingAddressPostalCodeValidation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-6">
+                                    <fieldset class="border p-2">
+                                        <legend class="w-auto">Shipping Address</legend>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group mb-0">
+                                                    <label for="saddress1" class="form-control-label  requiredField">
+                                                        Address line 1<span>*</span>
+                                                    </label>
+                                                    <div class="controls ">
+                                                        <input asp-for="@Model.AddUser.ShippingAddress.Line1" class="form-control" id="saddress1" maxlength="50" type="text" />
+                                                        <span asp-validation-for="@Model.AddUser.ShippingAddress.Line1" id="_shippingAddrLine1Validation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="form-group mb-0">
+                                                    <label for="saddress2" class="form-control-label ">Address line 2</label>
+                                                    <div class="controls ">
+                                                        <input asp-for="@Model.AddUser.ShippingAddress.Line2" class="form-control" id="saddress2" maxlength="50" type="text" />
+                                                        <span asp-validation-for="@Model.AddUser.ShippingAddress.Line2" id="_shippingAddrLine2Validation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="form-group mb-0">
+                                                    <label for="sunit" class="form-control-label">Suite#</label>
+                                                    <div class="controls ">
+                                                        <input asp-for="@Model.AddUser.ShippingAddress.Unit" class="form-control" id="sunit" maxlength="50" type="text" />
+                                                        <span asp-validation-for="@Model.AddUser.ShippingAddress.Unit" id="_shippingAddrUnitValidation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group mb-0">
+                                                    <label for="scountry" class="form-control-label ">Country<span>*</span></label>
+                                                    <div class="controls">
+                                                        <select asp-for="@Model.AddUser.ShippingAddress.Country" class="form-control" id="scountry" required>
+                                                        </select>
+                                                        <span asp-validation-for="@Model.AddUser.ShippingAddress.Country" id="_shippingAddressCountryValidation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group mb-0">
+                                                    <label for="sstate" class="form-control-label">
+                                                        State<span>*</span>
+                                                    </label>
+                                                    <div class="controls">
+                                                        <select asp-for="@Model.AddUser.ShippingAddress.State" class="form-control" id="sstate">
+                                                            <option value="ProfileDetails.shippingAddress.state" disabled selected></option>
+                                                        </select>
+                                                        <span asp-validation-for="@Model.AddUser.ShippingAddress.State" id="_shippingAddressStateValidation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="form-group mb-0">
+                                                    <label for="scity" class="form-control-label  requiredField">
+                                                        City<span>*</span>
+                                                    </label>
+                                                    <div class="controls">
+                                                        <input asp-for="@Model.AddUser.ShippingAddress.City" class="form-control" id="scity" maxlength="75" type="text" />
+                                                        <span asp-validation-for="@Model.AddUser.ShippingAddress.City" id="_shippingAddressCityValidation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group mb-0">
+                                                    <label for="spostalcode" class="form-control-label">
+                                                        Postal Code<span>*</span>
+                                                    </label>
+                                                    <div class="controls">
+                                                        <input asp-for="@Model.AddUser.ShippingAddress.PostalCode" class="form-control" id="spostalcode" type="text" />
+                                                        <span asp-validation-for="@Model.AddUser.ShippingAddress.PostalCode" id="_shippingAddressPostalCodeValidation" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col">
+                                    <fieldset class="border p-2">
+                                        <legend class="w-auto"></legend>
+                                        <div class="form-check-inline">
+                                            <label>
+                                                <input asp-for="@Model.AddUser.IsTermsAccepted" type="checkbox" class="form-check-input" id="isTermsAccepted">Terms Accepted
+                                            </label>
+                                        </div>
+                                        <div class="form-check-inline">
+                                            <label>
+                                                <input asp-for="@Model.AddUser.IsEmailVerified" type="checkbox" class="form-check-input" disabled id="isEmailVerified">Email Verified
+                                            </label>
+                                        </div>
+                                        <div class="form-check-inline">
+                                            <label>
+                                                <input asp-for="@Model.AddUser.IsTwoFactorOn" type="checkbox" class="form-check-input" id="isTwoFactorOn">Two Factor Auth
+                                            </label>
+                                        </div>
+                                        <div class="form-check-inline">
+                                            <label>
+                                                <input asp-for="@Model.AddUser.IsPhoneVerified" type="checkbox" class="form-check-input" disabled id="isPhoneVerified">Phone Verified
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <span asp-validation-for="@Model.AddUser.IsTermsAccepted" id="_isTermsAcceptedValidation" class="text-danger"></span>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+
+
+                            <div class="pt-3">
+                                <div>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary btn-custom-class" id="editUserFormSubmit">Save Changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            @section Scripts
+            {
+                <script src="~/lib/jqueryui/jquery-ui.min.js"></script>
+                <script src="~/lib/chosen/chosen.jquery.min.js"></script>
+                <script src="~/lib/limonte-sweetalert2/sweetalert2.min.js"></script>
+                <script src="~/lib/custom/js/account/profile.js"></script>
+                @await Html.PartialAsync("_ValidationScriptsPartial")
+                <script>
+                    $(function () {
+                        console.log("ready!...");
+
+                         getCountries();
+
+                        $("#birthdate").datepicker({
+                            changeYear:true,
+                            yearRange: "1901:2020"
+                        });
+
+                        let username = "@Model.Profile.Username";
+                        GetUserByUsername(username);
+
+                        /* This is the code to check the checkbox */
+                        let defaultRangeValidator = $.validator.methods.range;
+                        $.validator.methods.range = function (value, element, param) {
+                            if (element.type === 'checkbox') {
+                                // if it's a checkbox return true if it is checked
+                                return element.checked;
+                            } else {
+                                // otherwise run the default validation function
+                                return defaultRangeValidator.call(this, value, element, param);
+                            }
+                        }
+
+                        $("#editUserFormSubmit").on('click', (event) => {
+                            event.preventDefault();
+
+                            if ($('#editUserForm').valid()) {
+                                console.log("Form is valid");
+                                updateProfileForm.userid = $("#userId").val();
+                                updateProfileForm.appUserRole = $("#appUserRole").val();
+                                updateProfileForm.firstname = $("#firstname").val();
+                                updateProfileForm.middlename = $("#middlename").val();
+                                updateProfileForm.lastname = $("#lastname").val();
+                                updateProfileForm.email = $("#email").val();
+                                updateProfileForm.username = $("#username").val();
+                                updateProfileForm.phone = $("#phone").val();
+                                updateProfileForm.displayname = $("#displayname").val();
+                                updateProfileForm.birthdate = $("#birthdate").val();
+                                updateProfileForm.gender = $("#gender").val();
+                                updateProfileForm.address1 = $("#address1").val();
+                                updateProfileForm.address2 = $("#address2").val();
+                                updateProfileForm.unit = $("#unit").val();
+
+                                let countryId = Number($("#country").val());
+                                let country = countries.filter(function (x) { return x.id === countryId });
+                                updateProfileForm.country = country[0].name;
+                                updateProfileForm.city = $("#city").val();
+                                updateProfileForm.state = $("#state").val();
+                                updateProfileForm.postalcode = $("#postalcode").val();
+                                updateProfileForm.saddress1 = $("#saddress1").val();
+                                updateProfileForm.saddress2 = $("#saddress2").val();
+                                updateProfileForm.sunit = $("#sunit").val();
+                                let scountryId = Number($("#scountry").val());
+                                let scountry = countries.filter(function (x) { return x.id === scountryId });
+                                updateProfileForm.scountry = scountry[0].name;
+                                updateProfileForm.scity = $("#scity").val();
+                                updateProfileForm.sstate = $("#sstate").val();
+                                updateProfileForm.spostalcode = $("#spostalcode").val();
+                                updateProfileForm.isTwoFactorOn = $("#isTwoFactorOn").is(":checked");
+                                updateProfileForm.isTermsAccepted = $("#isTermsAccepted").is(":checked");
+                                UpdateUser(updateProfileForm);
+                            }
+                            else {
+                                var $errors = $("form").find(".field-validation-error span");
+                                console.log($errors);
+                            }
+                        });                    
+
+                        $("#country").chosen().change(function (event) {
+                            console.log($(event.target).val());
+                            let countryId = $(event.target).val();
+                            let $billingStateDropdown = $("#state");
+                            let country = countries.filter(function (x) { return x.id === Number(countryId) });
+                            if (country.length > 0) {
+                                let states = [];
+                                if (country[0].states !== null && country[0].states !== "") {
+                                    states = country[0].states.split("|");
+                                    let optionsValues = '<option value="Select State" disabled selected>Select</option>';
+                                    $.each(states, function (index, item) {
+                                        optionsValues += '<option value="' + item + '">' + item + '</option>';
+                                    });
+                                    $billingStateDropdown.html("")
+                                    $billingStateDropdown.append(optionsValues);
+                                    $billingStateDropdown.prop('disabled', false).trigger("chosen:updated");
+
+                                }
+                                else {
+                                    /* Disable DropDown as no states available */
+                                    $("#state").val(null);
+                                    $billingStateDropdown.prop('disabled', true).trigger("chosen:updated");
+                                }
+                            }
+                        });
+
+                        $("#scountry").chosen().change(function (event) {
+                            console.log($(event.target).val());
+                            let countryId = $(event.target).val();
+                            let $billingStateDropdown = $("#sstate");
+                            let country = countries.filter(function (x) { return x.id === Number(countryId) });
+                            if (country.length > 0) {
+                                let states = [];
+                                if (country[0].states !== null && country[0].states !== "") {
+                                    states = country[0].states.split("|");
+                                    let optionsValues = '<option value="Select State" disabled selected>Select</option>';
+                                    $.each(states, function (index, item) {
+                                        optionsValues += '<option value="' + item + '">' + item + '</option>';
+                                    });
+                                    $billingStateDropdown.html("")
+                                    $billingStateDropdown.append(optionsValues);
+                                    $billingStateDropdown.prop('disabled', false).trigger("chosen:updated");
+
+                                }
+                                else {
+                                    /* Disable DropDown as no states available */
+                                    $("#sstate").val(null);
+                                    $billingStateDropdown.prop('disabled', true).trigger("chosen:updated");
+                                }
+                            }
+                        });
+                        $("#gender").chosen();     
+                    });
+                </script>
+            }

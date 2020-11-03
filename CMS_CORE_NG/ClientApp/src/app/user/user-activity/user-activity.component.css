@@ -1,0 +1,30 @@
+.text-light {
+    color: #848d91 !important;
+}
+
+.alert i {
+    font-size: 30px !important;
+}
+
+.alert.alert-wth-icon .alert-icon-wrap {
+    display: block;
+    text-align: center;
+    padding-top: 18px;
+    height: 100%;
+    width: 54px;
+    left: 0;
+    top: 0;
+    position: absolute;
+}
+.alert-details {
+    margin-left: 2rem !important;
+}
+
+@media only screen and (max-width: 600px) {
+    .alert i {
+        display: none !important;
+    }
+    .alert-details {
+        margin-left: 0 !important;
+    }
+}

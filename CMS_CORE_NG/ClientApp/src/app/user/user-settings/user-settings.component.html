@@ -1,0 +1,75 @@
+<div class="container mt-5">
+    <section class="sec-wrapper">
+        <fieldset class="border p-4">
+            <legend class="w-auto">Change Password</legend>
+            <form id="resetPasswordForm" [formGroup]="updatePasswordForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label for="oldPassword">Old Password</label>
+                        <input class="form-control" id="oldPassword" placeholder="*********" value="" type="password" formControlName="oldPassword" />
+                        <div *ngIf="oldPassword.touched && oldPassword.errors" class="text-danger">
+                            <span *ngIf="oldPassword.hasError('required')">Old Password is required.</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label for="newPassword">New Password</label>
+                        <input class="form-control" id="newPassword" placeholder="*********" value="" type="password" formControlName="newPassword" />
+                        <div *ngIf="newPassword.touched && newPassword.errors" class="text-danger">
+                            <span *ngIf="newPassword.hasError('required')">Password is required.</span>
+                            <span *ngIf="newPassword.hasError('maxlength')">Only 15 characters allowed for password.</span>
+                            <span *ngIf="newPassword.hasError('minlength')">Atleast 8 characters needed for password.</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label for="cnewPassword">Confirm New Password</label>
+                        <input
+                            class="form-control"
+                            value=""
+                            id="cnewPassword"
+                            placeholder="*********"
+                            type="password"
+                            formControlName="cnewPassword"
+                        />
+                        <div *ngIf="cnewPassword.touched && cnewPassword.errors" class="text-danger">
+                            <span *ngIf="cnewPassword.hasError('required')">Confirm Password is required.</span>
+                            <span *ngIf="cnewPassword.hasError('mustMatch')">Confirm Password Must Match.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-right">
+                    <div class="col">
+                        <button
+                            type="submit"
+                            [disabled]="updatePasswordForm.invalid"
+                            class="btn btn-primary btn-md mt-3 d-none d-md-inline-block d-sm-none"
+                            id="btnMdUpdatePassword"
+                        >
+                            <span class="btn-text"><i class="fas fa-pen mr-2"></i>UPDATE</span>
+                        </button>
+                        <!-- Only visible on small Screen -->
+                        <button
+                            type="submit"
+                            [disabled]="updatePasswordForm.invalid"
+                            class="btn btn-primary btn-md mt-3 btn-block d-block d-md-none"
+                            id="btnSmUpdatePassword"
+                        >
+                            <span class="btn-text"><i class="fas fa-pen mr-2"></i>UPDATE</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div class="row mt-3">
+                <div class="col-auto">
+                    <ul class="list-group mb-15">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">At least one upper case English letter</li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">At least one upper case English letter</li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">At least one lower case English letter</li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">At least one digit</li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">At least one special character</li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">Minimum eight in length</li>
+                    </ul>
+                </div>
+            </div>
+        </fieldset>
+    </section>
+</div>

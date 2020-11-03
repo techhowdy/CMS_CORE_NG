@@ -1,0 +1,185 @@
+﻿@model ModelService.AdminBaseViewModel
+@{
+    ViewData["Title"] = "Site Settings";
+}
+
+<div class="container-fluid">
+    <section class="sec-wrapper">
+        <fieldset class="border p-4">
+            <legend class="w-auto">Sitewide Settings</legend>
+            <form id="sitewideSettingsForm">
+                <div class="row">
+                    <div class="col-md-3 form-group">
+                        <label for="websiteName">Website Name</label>
+                        <input class="form-control" id="websiteName" placeholder="eg: Techhowdy.com" value="@Model.SiteWideSetting.WebsiteName" type="text">
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <label for="websiteAuthor">Website Author</label>
+                        <input class="form-control" id="websiteAuthor" placeholder="eg: Lyoid Lopes" value="@Model.SiteWideSetting.WebsiteAuthor" type="text">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="websiteTitle">Website Title (Max 50 char)</label>
+                        <input class="form-control" value="@Model.SiteWideSetting.WebsiteTitle" id="websiteTitle" placeholder="eg: Learn To Code With Techhowdy | Take Your Future to Next Level" type="text">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <label for="websiteDescription">Website Description (Max 150 char)</label>
+                        <textarea class="form-control" id="websiteDescription" placeholder="eg: Join Our Community Of 80,000 Students. Whatever Your Goal - We'll Get You There. Try It Free">@Model.SiteWideSetting.WebsiteDescription</textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <label for="websiteKeywords">Meta Keywords (Max 5 keywords - comma(,) seperated)</label>
+                        <input class="form-control" value="@Model.SiteWideSetting.WebsiteKeywords" id="websiteKeywords" placeholder="eg: technology tutorials, learn asp.net core, learn asp.net mvc, learn asp.net web api, learn angular" type="text">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <label for="websiteFooter">Website Footer (Max 50 char)</label>
+                        <input class="form-control" value="@Model.SiteWideSetting.WebsiteFooter" id="websiteFooter" placeholder="eg: CMS Core Angular Admin Panel Techhowdy©2020" type="text">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label for="websiteStatus">Website Status</label>
+                        <select class="form-control custom-select" id="websiteStatus">
+                            <option disabled selected>@Model.SiteWideSetting.WebsiteStatus</option>
+                            <option value="1">Active</option>
+                            <option value="2">Disabled</option>
+                            <option value="3">Maintainance</option>
+                            <option value="4">Coming Soon</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label for="registrationStatus">Registration</label>
+                        <select class="form-control custom-select" id="registrationStatus">
+                            <option disabled selected>@(Model.SiteWideSetting.WebsiteRegistration == false ? "Disabled" : "Active")</option>
+                            <option value="1">Active</option>
+                            <option value="2">Disable</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label for="ageVerification">Age Verification</label>
+                        <select class="form-control custom-select" id="ageVerification">
+                            <option disabled selected>@(Model.SiteWideSetting.AgeVerification == false ? "Disabled" : "Active")</option>
+                            <option value="1">Active</option>
+                            <option value="2">Disabled</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row text-right">
+                    <div class="col">
+                        <button class="btn btn-primary btn-md mt-3 d-none d-md-inline-block d-sm-none" id="btnMdUpdateSiteWideSettings">
+                            <span class="btn-text"><i class="fas fa-pen mr-2"></i>UPDATE</span>
+                        </button>
+                        <!-- Only visible on small Screen -->
+                        <button class="btn btn-primary btn-md mt-3 btn-block d-block  d-md-none" id="btnSmUpdateSiteWideSettings">
+                            <span class="btn-text"><i class="fas fa-pen mr-2"></i>UPDATE</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </fieldset>
+    </section>
+</div>
+
+<div class="modal" id="updateSuccessModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Modal Heading</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Reload page to see changes.
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" id="reloadPageBtn">Reload</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/limonte-sweetalert2/sweetalert2.min.js"></script>
+    <script>
+
+        $(function() {
+           $('#btnMdUpdateSiteWideSettings').click(function(e) {
+               e.preventDefault();
+               UpdateSiteWideSettings();
+           });
+
+           $('#btnSmUpdateSiteWideSettings').click(function(e) {
+                    e.preventDefault();
+                   UpdateSiteWideSettings();
+           });
+
+
+           $('#reloadPageBtn').click(function(e) {
+                e.preventDefault();
+                window.location.reload();
+           });
+        });
+
+
+        function UpdateSiteWideSettings() {
+
+          let websiteName = $("#websiteName").val();
+          let websiteTitle = $("#websiteTitle").val();
+          let websiteDescription = $("#websiteDescription").val();
+          let websiteAuthor = $("#websiteAuthor").val();
+          let websiteKeywords = $("#websiteKeywords").val();
+          let websiteFooter = $("#websiteFooter").val();
+          let websiteStatus = $('#websiteStatus :selected').text();
+          let registrationStatus = ($('#registrationStatus :selected').text() === "Active");
+          let ageVerification =  ($('#ageVerification :selected').text() === "Active");
+
+          const siteWideSettings =
+          {
+              "WebsiteName" : websiteName,
+              "WebsiteTitle" : websiteTitle,
+              "WebsiteDescription" : websiteDescription,
+              "WebsiteKeywords" : websiteKeywords,
+              "WebsiteAuthor" : websiteAuthor,
+              "WebsiteFooter" : websiteFooter,
+              "WebsiteStatus" : websiteStatus,
+              "WebsiteRegistration" : registrationStatus,
+              "AgeVerification" : ageVerification
+          };
+
+          console.log(siteWideSettings);
+
+          $.ajax({
+              type: 'POST',
+              url: "@Url.Action("UpdateSettings", "SiteSettings")",
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              data: JSON.stringify(siteWideSettings),
+              headers: {
+                  'X-XSRF-TOKEN': getCookie("XSRF-TOKEN"),
+              },
+              success: function (result) {
+                  console.log(result);
+                  if (result)
+                  {
+                      console.log("Success");
+                      $(".container-fluid").css({ opacity: 0.5 });
+                      $("#updateSuccessModal .modal-title").text("Sitewide Settings Updated")
+                      $("#updateSuccessModal").show();
+                  }
+              },
+              error: function() {
+                alert("Error : Request could not be processed. Try again Later");
+              }
+          });
+        }
+    </script>
+}

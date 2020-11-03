@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <environment exclude="Development">
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="~/lib/custom/css/notification/notification.min.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css">
+        <link rel="stylesheet" href="~/lib/limonte-sweetalert2/sweetalert2.min.css">
+    </environment>
+
+    <environment include="Development">
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href="~/lib/custom/css/notification/notification.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/all.css">
+        <link rel="stylesheet" href="~/lib/limonte-sweetalert2/sweetalert2.css">
+    </environment>
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+    <environment exclude="Development">
+        <script src="~/lib/jquery/jquery.min.js"></script>
+        <script src="~/lib/popper.js/popper.min.js"></script>
+        <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+        <script src="~/lib/limonte-sweetalert2/sweetalert2.all.min.js"></script>
+    </environment>
+    <environment include="Development">
+        <script src="~/lib/jquery/jquery.js"></script>
+        <script src="~/lib/popper.js/popper.js"></script>
+        <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+        <script src="~/lib/limonte-sweetalert2/sweetalert2.all.js"></script>
+    </environment>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
